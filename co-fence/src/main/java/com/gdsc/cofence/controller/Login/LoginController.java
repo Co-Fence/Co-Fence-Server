@@ -6,6 +6,8 @@ import com.gdsc.cofence.dto.userDto.UserInfo;
 import com.gdsc.cofence.dto.userDto.userRequest.UserAndTokenResponseDto;
 import com.gdsc.cofence.service.login.TokenRenewService;
 import com.gdsc.cofence.service.login.UserLoginService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,33 +20,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@Tag(name = "인증")
+@RequestMapping("/api/v1/auth")
 public class LoginController {
 
     private final UserLoginService userLoginService;
     private final TokenRenewService tokenRenewService;
 
-    @PostMapping("/checkEmail") // 이메일이 이미 데이터베이스에 있는지에 대한 여부를 반환하는 api
+    @PostMapping("/checkEmail")
+    @Operation(summary = "중복회원 검증", description = "google, kakao를 통해서 사전적으로 받은 email을 DB조회를 통해서 중복회원 여부를 검사해서 true 혹은 false를 반환합니다")
     public boolean checkEmailExistence(@RequestParam String email) {
         return userLoginService.duplicateInspectionEmail(email);
     }
 
-    @PostMapping("/signUp") // 처음 회원가입 할 때 사용할 api
+    @PostMapping("/signUp")
+    @Operation(summary = "회원가입", description = "사용자 정보를 받고 DB에 저장하고 refreshToken, accessToken을 발급해서 회원가입을 진행하고 사용자 정보와 함께 반환합니다.")
     public ResponseEntity<UserAndTokenResponseDto> signUp(@RequestBody UserInfo userInfo) {
         UserAndTokenResponseDto userData = userLoginService.SignUp(userInfo);
 
         return ResponseEntity.ok(userData);
     }
 
-    @PostMapping("/login") // 회원가입 후 로그인 할 때 사용할 api -> email을 json형태로 받아서 새로 갱신된(refreshToken, accessToken) + 사용자 정보와 함께 반환한다.
+    @PostMapping("/login")
+    @Operation(summary = "로그인", description = "사용자 email을 받아서 해당 사용자를 찾고 갱신된 accessToken, refreshToken 사용자 정보와 함께 반환합니다.")
     public ResponseEntity<UserAndTokenResponseDto> login(@RequestBody UserEmailDto userEmailDto) {
         UserAndTokenResponseDto refreshUserData = userLoginService.login(userEmailDto);
 
         return ResponseEntity.ok(refreshUserData);
     }
 
-
-    @PostMapping("/renew") // -> login api를 통해서 갱신된 refreshToken, accessToken을 발급받기에 이 api는 딱히 필요가 없을것으로 보임
+    @PostMapping("/renew")
+    @Operation(summary = "엑세스 토큰 갱신", description = "refreshToken을 통해서 accessToken을 갱신합니다")
     public ResponseEntity<RenewAccessTokenDto> renewAccessToken(@RequestHeader("Authorization") String refreshToken) {
 
 //        if (refreshToken.startsWith("Bearer")) {       -> 추후에 Bearer토큰일 경우

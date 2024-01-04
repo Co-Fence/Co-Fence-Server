@@ -3,6 +3,8 @@ package com.gdsc.cofence.controller.Login;
 import com.gdsc.cofence.dto.tokenDto.TokenParsing.UserAccessTokenParsingDto;
 import com.gdsc.cofence.dto.tokenDto.TokenParsing.UserRefreshTokenParsingDto;
 import com.gdsc.cofence.service.login.TokenRenewService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/parsing")
+@Tag(name = "파싱")
+@RequestMapping("/api/v1/parsing")
 public class TokenController {
 
     private final TokenRenewService tokenRenewService;
 
-    @GetMapping("/userInfo") // accessToken을 파싱해서 사용자 검증을 위한 정보를 받는 api
+    @GetMapping("/accessParsing")
+    @Operation(summary = "accessToken 파싱", description = "accessToken을 파싱해서 사용자 정보를 반환합니다")
     public ResponseEntity<UserAccessTokenParsingDto> getUserInfo(@RequestHeader("Authorization") String accessToken) {
         UserAccessTokenParsingDto userData = tokenRenewService.getUserFromAccessToken(accessToken);
         return ResponseEntity.ok(userData);
@@ -30,7 +34,8 @@ public class TokenController {
         }
     */
 
-    @GetMapping("/refresh/userInfo") // refreshToken을 파싱해서 userSeq를 받는 api
+    @GetMapping("/refreshParsing")
+    @Operation(summary = "refreshToken 파싱", description = "refreshToken을 파싱해서 사용자 Id를 반환합니다.")
     public ResponseEntity<UserRefreshTokenParsingDto> getRefreshUserInfo(@RequestHeader("Authorization") String refreshToken) {
         UserRefreshTokenParsingDto userId = tokenRenewService.getUserFromRefreshToken(refreshToken);
         return ResponseEntity.ok(userId);
