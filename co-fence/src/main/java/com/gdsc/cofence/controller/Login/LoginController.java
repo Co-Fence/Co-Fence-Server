@@ -1,4 +1,4 @@
-package com.gdsc.cofence.controller.Login;
+package com.gdsc.cofence.controller.login;
 
 import com.gdsc.cofence.dto.tokenDto.RenewAccessTokenDto;
 import com.gdsc.cofence.dto.userDto.UserEmailDto;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "인증")
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v22/auth")
 public class LoginController {
 
     private final UserLoginService userLoginService;

@@ -1,13 +1,19 @@
 package com.gdsc.cofence.entity.user;
 
+import com.gdsc.cofence.entity.userWorkplace.UserWorkPlace;
+import com.gdsc.cofence.entity.workplaceManagement.WorkPlace;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +26,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,7 +52,7 @@ public class User {
     private String nationality;
 
     @JsonIgnore
-    @Column(name = "USER_PASSWORD", length = 128, nullable = false)
+    @Column(name = "USER_PHONE_NUMBER", length = 128, nullable = false)
     private String phoneNumber;
 
     @Column(name = "USER_EMAIL", length = 512, unique = true, nullable = false)
@@ -65,4 +73,12 @@ public class User {
     @Column(name = "MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WORKPLACE_ID")
+    private WorkPlace workPlace;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserWorkPlace> userWorkPlaces = new ArrayList<>();
+
+    // 사용자 정보 수정사항에 있어서 update메서드등 새로 만들어야함
 }

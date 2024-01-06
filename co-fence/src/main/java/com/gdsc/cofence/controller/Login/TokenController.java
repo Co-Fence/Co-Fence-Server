@@ -1,4 +1,4 @@
-package com.gdsc.cofence.controller.Login;
+package com.gdsc.cofence.controller.login;
 
 import com.gdsc.cofence.dto.tokenDto.TokenParsing.UserAccessTokenParsingDto;
 import com.gdsc.cofence.dto.tokenDto.TokenParsing.UserRefreshTokenParsingDto;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Tag(name = "파싱")
-@RequestMapping("/api/v1/parsing")
+@RequestMapping("/api/v22/parsing")
 public class TokenController {
 
     private final TokenRenewService tokenRenewService;
