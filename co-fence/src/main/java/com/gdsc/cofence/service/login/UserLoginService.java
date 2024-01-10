@@ -54,7 +54,7 @@ public class UserLoginService {
         // refreshToken 생성
         String refreshToken = tokenProvider.createRefreshToken(user);
 
-        // refershToken DB에 저장
+        // refreshToken DB에 저장
         UserRefreshToken userRefreshToken = new UserRefreshToken();
         userRefreshToken.setRefreshToken(refreshToken);
         userRefreshToken.setUser(user);
@@ -79,8 +79,6 @@ public class UserLoginService {
     }
 
 
-
-
     // 사용자 email을 받아서 사용자 검색하고 그 사용자에 맞는 갱신된 refreshToken, accessToken 반환
     @Transactional
     public UserAndTokenResponseDto login(UserEmailDto userEmailDto) {
@@ -90,10 +88,11 @@ public class UserLoginService {
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EMAIL_EXCEPTION,
                         ErrorCode.NOT_FOUND_EMAIL_EXCEPTION.getMessage()));
 
-        String renewRefreshToken = tokenProvider.createRefreshToken(user); // 갱신되 refreshToken 생성
+        String renewRefreshToken = tokenProvider.createRefreshToken(user); // 갱신된 refreshToken 생성
 
         UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUser_UserSeq(user.getUserSeq())
-                .orElse(new UserRefreshToken());
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
+                        ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
 
         userRefreshToken.setRefreshToken(renewRefreshToken);
         userRefreshToken.setUser(user);

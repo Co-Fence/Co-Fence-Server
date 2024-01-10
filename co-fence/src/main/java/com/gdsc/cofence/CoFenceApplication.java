@@ -44,7 +44,6 @@ public class CoFenceApplication {
                     new WorkPlace(20L, "김해 국제공항 터미널 리노베이션 (9)", "부산 강서구 공항로 567")
             );
             repository.saveAll(workplaces);
-
         };
     }
 }

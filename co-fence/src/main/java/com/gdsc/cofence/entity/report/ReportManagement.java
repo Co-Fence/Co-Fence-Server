@@ -26,7 +26,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "REPORT_MANAGEMENT")
 public class ReportManagement {
 
     @Id

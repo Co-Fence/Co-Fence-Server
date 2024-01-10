@@ -10,6 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ import org.springframework.util.StringUtils;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -29,7 +31,6 @@ import java.util.stream.Collectors;
 public class TokenProvider {
 
     private final Key key;
-
     private final long accessTokenValidityTime;
     private final long refreshTokenValidityTime;
 
@@ -47,9 +48,9 @@ public class TokenProvider {
         Date refreshTokenExpiredTime = new Date(nowTime + refreshTokenValidityTime);
 
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getUserSeq().toString())
                 .setIssuedAt(new Date())
-                .claim("auth2", user.getRoleType().name())
+                .claim("Role", user.getRoleType().name())
                 .claim("email", user.getEmail())
                 .setExpiration(refreshTokenExpiredTime)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -62,8 +63,8 @@ public class TokenProvider {
         Date accessTokenExpiredTime = new Date(nowTime + accessTokenValidityTime);
 
         return Jwts.builder()
-                .setSubject(user.getEmail())
-                .claim("auth2", user.getRoleType().name())
+                .setSubject(user.getUserSeq().toString())
+                .claim("Role", user.getRoleType().name())
                 .claim("email", user.getEmail())
                 .setExpiration(accessTokenExpiredTime)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -79,6 +80,8 @@ public class TokenProvider {
                     .getBody();
         } catch (ExpiredJwtException e) {
             throw new CustomException(ErrorCode.EXPIRED_TOKEN_EXCEPTION, ErrorCode.EXPIRED_TOKEN_EXCEPTION.getMessage());
+        } catch (SignatureException e) {
+            throw new CustomException(ErrorCode.INVALID_SIGNATURE_EXCEPTION, ErrorCode.INVALID_SIGNATURE_EXCEPTION.getMessage());
         }
     }
 
@@ -89,13 +92,15 @@ public class TokenProvider {
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
-        if (claims.get("get") == null) {
+        if (claims.get("Role") == null) {
             throw new CustomException(ErrorCode.FORBIDDEN_AUTH_EXCEPTION, ErrorCode.FORBIDDEN_AUTH_EXCEPTION.getMessage());
         }
 
-        Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
+        Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("Role").toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+
+//        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(claims.get("Role").toString()));
 
         return new UsernamePasswordAuthenticationToken(claims.getSubject(), "", authorities);
     }
