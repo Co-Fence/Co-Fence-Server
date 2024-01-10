@@ -12,9 +12,9 @@ import com.gdsc.cofence.exception.model.CustomException;
 import com.gdsc.cofence.jwt.TokenProvider;
 import com.gdsc.cofence.repository.UserRefreshTokenRepository;
 import com.gdsc.cofence.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -22,6 +22,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserLoginService {
 
     private final UserRepository userRepository;

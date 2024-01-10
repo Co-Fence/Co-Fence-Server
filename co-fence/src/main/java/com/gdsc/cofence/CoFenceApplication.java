@@ -1,6 +1,6 @@
 package com.gdsc.cofence;
 
-import com.gdsc.cofence.entity.workplaceManagement.WorkPlace;
+import com.gdsc.cofence.entity.workplace.WorkPlace;
 import com.gdsc.cofence.repository.WorkplaceRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,18 +1,19 @@
 package com.gdsc.cofence.service.workplace;
 
-import com.gdsc.cofence.dto.wokrplaceDto.WorkPlaceMeta;
-import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlaceRequestDto;
+import com.gdsc.cofence.dto.wokrplaceDto.WorkPlaceMetaDto;
+import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlacePagingAmountRequestDto;
+import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlacePagingRequestDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseWrapperDto;
 import com.gdsc.cofence.exception.ErrorCode;
 import com.gdsc.cofence.exception.model.CustomException;
 import com.gdsc.cofence.repository.WorkplaceRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 
@@ -23,7 +24,7 @@ public class WorkPlaceService {
 
     private final WorkplaceRepository workplaceRepository;
 
-    public WorkPlaceResponseWrapperDto getWorkPlaces(WorkPlaceRequestDto requestDto,
+    public WorkPlaceResponseWrapperDto getWorkPlaces(WorkPlacePagingAmountRequestDto requestDto,
                                                      Principal principal) {
 
         if (principal == null) { // principal 객체에 null담기는거 문제 해결하기
@@ -37,8 +38,9 @@ public class WorkPlaceService {
                 .map(WorkPlaceResponseDto::new);
 
         boolean hasMore = hasMore(requestDto.getPage(), requestDto.getSize());
-        WorkPlaceMeta meta = WorkPlaceMeta.builder()
+        WorkPlaceMetaDto meta = WorkPlaceMetaDto.builder()
                 .count(result.getContent().size())
+                .page(requestDto.getPage())
                 .hasMore(hasMore)
                 .build();
 
@@ -56,4 +58,19 @@ public class WorkPlaceService {
 
         return totalElements > (long) page * size;
     }
+
+//    @Transactional(readOnly = true)
+//    public Page<WorkPlacePagingRequestDto> searchWorkPlace(String keyword, WorkPlacePagingAmountRequestDto pagingRequestDto, Principal principal) {
+//
+//        if (principal == null) {
+//            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
+//                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
+//        }
+//
+//        PageRequest pageRequest = PageRequest.of(pagingRequestDto.getPage(), pagingRequestDto.getSize());
+//
+//
+//
+//        return
+//    }
 }

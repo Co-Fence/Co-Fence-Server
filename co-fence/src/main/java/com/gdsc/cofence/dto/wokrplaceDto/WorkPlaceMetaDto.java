@@ -6,8 +6,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class WorkPlaceMeta {
+public class WorkPlaceMetaDto {
 
     private int count;
+    private int page;
     private Boolean hasMore;
 }

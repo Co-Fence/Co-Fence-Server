@@ -1,6 +1,6 @@
 package com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse;
 
-import com.gdsc.cofence.dto.wokrplaceDto.WorkPlaceMeta;
+import com.gdsc.cofence.dto.wokrplaceDto.WorkPlaceMetaDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +10,6 @@ import java.util.List;
 @Builder
 public class WorkPlaceResponseWrapperDto {
 
-    private WorkPlaceMeta meta;
+    private WorkPlaceMetaDto meta;
     private List<WorkPlaceResponseDto> data;
 }

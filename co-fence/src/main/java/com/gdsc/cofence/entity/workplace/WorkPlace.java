@@ -1,4 +1,4 @@
-package com.gdsc.cofence.entity.workplaceManagement;
+package com.gdsc.cofence.entity.workplace;
 
 import com.gdsc.cofence.entity.user.User;
 import jakarta.persistence.Column;
