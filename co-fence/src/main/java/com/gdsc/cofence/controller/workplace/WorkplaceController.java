@@ -22,12 +22,10 @@ public class WorkplaceController {
 
     private final WorkPlaceService workPlaceService;
 
-
     @GetMapping("/getInfo")
     @Operation(summary = "작업현장을 불러옵니다", description = "불러올 페이지를 정하고 몇개의 데이터를 받아올지 파라미터로 받고, accessToken을 Authorization에 accessToken을 받고 검증이 완료되면 반환")
     public ResponseEntity<WorkPlaceResponseWrapperDto> getWorkPlaces(@ModelAttribute WorkPlacePagingAmountRequestDto requestDto, Principal principal) {
         WorkPlaceResponseWrapperDto data = workPlaceService.getWorkPlaces(requestDto, principal);
-
         return ResponseEntity.ok(data);
     }
 }
