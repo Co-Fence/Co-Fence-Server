@@ -1,5 +1,8 @@
 HELP.md
+.DS_Store
 .gradle
+.env
+compose.yaml
 build/
 src/main/resources/application.yml
 !gradle/wrapper/gradle-wrapper.jar
