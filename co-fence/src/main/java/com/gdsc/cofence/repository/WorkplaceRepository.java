@@ -11,5 +11,5 @@ import java.util.List;
 
 public interface WorkplaceRepository extends JpaRepository<WorkPlace, Long>{
 
-    Page<WorkPlace> findByWorkplaceNameContainingOrWorkplaceAddressContaining(String workplaceName, String workplaceAddress, Pageable pageable);
+    Page<WorkPlace> findByWorkplaceNameContaining(String workplaceName, Pageable pageable);
 }
