@@ -1,10 +1,11 @@
 package com.gdsc.cofence.service.workplace;
 
 import com.gdsc.cofence.dto.wokrplaceDto.WorkPlaceMetaDto;
+import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlaceNameDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlacePagingAmountRequestDto;
-import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlacePagingRequestDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseWrapperDto;
+import com.gdsc.cofence.entity.workplace.WorkPlace;
 import com.gdsc.cofence.exception.ErrorCode;
 import com.gdsc.cofence.exception.model.CustomException;
 import com.gdsc.cofence.repository.WorkplaceRepository;
@@ -59,18 +60,33 @@ public class WorkPlaceService {
         return totalElements > (long) page * size;
     }
 
-//    @Transactional(readOnly = true)
-//    public Page<WorkPlacePagingRequestDto> searchWorkPlace(String keyword, WorkPlacePagingAmountRequestDto pagingRequestDto, Principal principal) {
-//
-//        if (principal == null) {
-//            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
-//                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
-//        }
-//
-//        PageRequest pageRequest = PageRequest.of(pagingRequestDto.getPage(), pagingRequestDto.getSize());
-//
-//
-//
-//        return
-//    }
+    @Transactional(readOnly = true)
+    public Page<WorkPlaceResponseDto> searchWorkPlaceByName(String workplaceName, Pageable pageable , Principal principal) {
+
+        if (principal == null) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
+                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
+        }
+
+        return workplaceRepository.findByWorkplaceNameContaining(workplaceName, pageable)
+                .map(WorkPlaceResponseDto::new);
+    }
+
+    public WorkPlaceResponseDto searchWorkPlaceById(Long workPlaceId, Principal principal) {
+
+        if (principal == null) { // principal 객체에 null담기는거 문제 해결하기
+            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
+                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
+        }
+
+        WorkPlace workPlaceInfo = workplaceRepository.findById(workPlaceId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
+                        ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
+
+        return WorkPlaceResponseDto.builder()
+                .workPlaceId(workPlaceInfo.getWorkplaceId())
+                .workPlaceName(workPlaceInfo.getWorkplaceName())
+                .workPlaceAddress(workPlaceInfo.getWorkplaceAddress())
+                .build();
+    }
 }
