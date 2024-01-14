@@ -2,7 +2,7 @@ package com.gdsc.cofence.controller.login;
 
 import com.gdsc.cofence.dto.tokenDto.RenewAccessTokenDto;
 import com.gdsc.cofence.dto.userDto.UserEmailDto;
-import com.gdsc.cofence.dto.userDto.UserInfo;
+import com.gdsc.cofence.dto.userDto.UserInfoDto;
 import com.gdsc.cofence.dto.userDto.userRequest.UserAndTokenResponseDto;
 import com.gdsc.cofence.service.login.TokenRenewService;
 import com.gdsc.cofence.service.login.UserLoginService;
@@ -35,8 +35,8 @@ public class LoginController {
 
     @PostMapping("/signUp")
     @Operation(summary = "회원가입", description = "사용자 정보를 받고 DB에 저장하고 refreshToken, accessToken을 발급해서 회원가입을 진행하고 사용자 정보와 함께 반환합니다.")
-    public ResponseEntity<UserAndTokenResponseDto> signUp(@RequestBody UserInfo userInfo) {
-        UserAndTokenResponseDto userData = userLoginService.SignUp(userInfo);
+    public ResponseEntity<UserAndTokenResponseDto> signUp(@RequestBody UserInfoDto userInfoDto) {
+        UserAndTokenResponseDto userData = userLoginService.SignUp(userInfoDto);
 
         return ResponseEntity.ok(userData);
     }

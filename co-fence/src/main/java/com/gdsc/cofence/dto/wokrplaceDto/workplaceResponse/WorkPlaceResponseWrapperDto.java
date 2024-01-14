@@ -1,6 +1,5 @@
 package com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse;
 
-import com.gdsc.cofence.dto.wokrplaceDto.WorkPlaceMetaDto;
 import lombok.Builder;
 import lombok.Data;
 

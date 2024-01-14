@@ -1,6 +1,6 @@
 package com.gdsc.cofence.entity.workplace;
 
-import com.gdsc.cofence.entity.user.User;
+import com.gdsc.cofence.entity.attendence.Attendance;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -34,7 +34,7 @@ public class WorkPlace {
     private String workplaceAddress;
 
     @OneToMany(mappedBy = "workPlace", fetch = FetchType.LAZY)
-    private List<User> users = new ArrayList<>();
+    private List<Attendance> attendances = new ArrayList<>();
 
     @Builder
     public WorkPlace(Long id, String name, String address) {

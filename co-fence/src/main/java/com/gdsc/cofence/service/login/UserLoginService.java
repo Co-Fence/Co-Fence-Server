@@ -5,7 +5,7 @@ import com.gdsc.cofence.dto.userDto.UserEmailDto;
 import com.gdsc.cofence.dto.userDto.userRequest.UserAndTokenResponseDto;
 import com.gdsc.cofence.entity.user.RoleType;
 import com.gdsc.cofence.entity.user.User;
-import com.gdsc.cofence.dto.userDto.UserInfo;
+import com.gdsc.cofence.dto.userDto.UserInfoDto;
 import com.gdsc.cofence.entity.user.UserRefreshToken;
 import com.gdsc.cofence.exception.ErrorCode;
 import com.gdsc.cofence.exception.model.CustomException;
@@ -31,21 +31,21 @@ public class UserLoginService {
     private final TokenRenewService tokenRenewService;
 
     @Transactional
-    public UserAndTokenResponseDto SignUp(UserInfo userInfo) {
+    public UserAndTokenResponseDto SignUp(UserInfoDto userInfoDto) {
 
-        Optional<User> existingUser = userRepository.findByEmail(userInfo.getEmail()); // 이메일 중복검사
+        Optional<User> existingUser = userRepository.findByEmail(userInfoDto.getEmail()); // 이메일 중복검사
         if (existingUser.isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL_EXCEPTION,
                     ErrorCode.ALREADY_EXIST_EMAIL_EXCEPTION.getMessage());
         }
 
         User user = userRepository.save(User.builder()
-                    .userName(userInfo.getName())
-                    .email(userInfo.getEmail())
-                    .phoneNumber(userInfo.getPhoneNumber())
-                    .profileImageUrl(userInfo.getProfileImageUrl())
-                    .nationality(userInfo.getNationality())
-                    .roleType(RoleType.getRoleTypeOfString(userInfo.getRoleType()))
+                    .userName(userInfoDto.getName())
+                    .email(userInfoDto.getEmail())
+                    .phoneNumber(userInfoDto.getPhoneNumber())
+                    .profileImageUrl(userInfoDto.getProfileImageUrl())
+                    .nationality(userInfoDto.getNationality())
+                    .roleType(RoleType.getRoleTypeOfString(userInfoDto.getRoleType()))
                     .build()
         );
 
