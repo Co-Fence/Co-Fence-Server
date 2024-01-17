@@ -3,7 +3,7 @@ package com.gdsc.cofence.controller.login;
 import com.gdsc.cofence.dto.tokenDto.RenewAccessTokenDto;
 import com.gdsc.cofence.dto.userDto.UserEmailDto;
 import com.gdsc.cofence.dto.userDto.UserInfoDto;
-import com.gdsc.cofence.dto.userDto.userRequest.UserAndTokenResponseDto;
+import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenResponseDto;
 import com.gdsc.cofence.service.login.TokenRenewService;
 import com.gdsc.cofence.service.login.UserLoginService;
 import io.swagger.v3.oas.annotations.Operation;

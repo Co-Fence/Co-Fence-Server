@@ -15,4 +15,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     Optional<Attendance> findByUserAndWorkPlace_WorkplaceId(User user, Long workplaceId);
 
+    Attendance findFirstByUser_UserSeqOrderByAttendTimeDesc(Long userSeq);
+
 }

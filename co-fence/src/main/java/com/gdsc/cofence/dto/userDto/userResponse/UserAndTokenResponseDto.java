@@ -1,5 +1,6 @@
-package com.gdsc.cofence.dto.userDto.userRequest;
+package com.gdsc.cofence.dto.userDto.userResponse;
 
+import com.gdsc.cofence.dto.wokrplaceDto.WorkplaceIdDto;
 import com.nimbusds.jose.shaded.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,4 +21,5 @@ public class UserAndTokenResponseDto {
     private String accessToken;
     @SerializedName("refresh_token")
     private String refreshToken;
+    private Long workplaceId;
 }

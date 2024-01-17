@@ -2,6 +2,7 @@ package com.gdsc.cofence.entity.attendence;
 
 import com.gdsc.cofence.entity.user.User;
 import com.gdsc.cofence.entity.workplace.WorkPlace;
+import jakarta.persistence.Access;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 public class Attendance {
