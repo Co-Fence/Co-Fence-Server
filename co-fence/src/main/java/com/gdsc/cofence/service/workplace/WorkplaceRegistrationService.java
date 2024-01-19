@@ -32,6 +32,7 @@ public class WorkplaceRegistrationService {
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
 
+    // 해당 작업현장으로 출근하는 로직
     public UserRegistrationResponseDto checkInWorkplace(Long workplaceId, Principal principal) {
 
         Long userId;
