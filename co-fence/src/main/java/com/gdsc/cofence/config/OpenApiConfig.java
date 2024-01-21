@@ -28,7 +28,7 @@ public class OpenApiConfig {
                         new SecurityScheme()
                                 .name(authName)
                                 .type(SecurityScheme.Type.HTTP)
-                                .scheme("")
+                                .scheme("Bearer")
                                 .bearerFormat("JWT")
                                 .description("accessToken 입력하세요."));
 
