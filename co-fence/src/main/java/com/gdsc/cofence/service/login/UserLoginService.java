@@ -2,14 +2,16 @@ package com.gdsc.cofence.service.login;
 
 import com.gdsc.cofence.dto.tokenDto.RenewAccessTokenDto;
 import com.gdsc.cofence.dto.userDto.UserEmailDto;
-import com.gdsc.cofence.dto.userDto.userRequest.UserAndTokenResponseDto;
+import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenResponseDto;
+import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.user.RoleType;
 import com.gdsc.cofence.entity.user.User;
-import com.gdsc.cofence.dto.userDto.UserInfo;
+import com.gdsc.cofence.dto.userDto.UserInfoDto;
 import com.gdsc.cofence.entity.user.UserRefreshToken;
 import com.gdsc.cofence.exception.ErrorCode;
 import com.gdsc.cofence.exception.model.CustomException;
 import com.gdsc.cofence.jwt.TokenProvider;
+import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.UserRefreshTokenRepository;
 import com.gdsc.cofence.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -29,23 +31,24 @@ public class UserLoginService {
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final TokenProvider tokenProvider;
     private final TokenRenewService tokenRenewService;
+    private final AttendanceRepository attendanceRepository;
 
     @Transactional
-    public UserAndTokenResponseDto SignUp(UserInfo userInfo) {
+    public UserAndTokenResponseDto SignUp(UserInfoDto userInfoDto) {
 
-        Optional<User> existingUser = userRepository.findByEmail(userInfo.getEmail()); // 이메일 중복검사
+        Optional<User> existingUser = userRepository.findByEmail(userInfoDto.getEmail()); // 이메일 중복검사
         if (existingUser.isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL_EXCEPTION,
                     ErrorCode.ALREADY_EXIST_EMAIL_EXCEPTION.getMessage());
         }
 
         User user = userRepository.save(User.builder()
-                    .userName(userInfo.getName())
-                    .email(userInfo.getEmail())
-                    .phoneNumber(userInfo.getPhoneNumber())
-                    .profileImageUrl(userInfo.getProfileImageUrl())
-                    .nationality(userInfo.getNationality())
-                    .roleType(RoleType.getRoleTypeOfString(userInfo.getRoleType()))
+                    .userName(userInfoDto.getName())
+                    .email(userInfoDto.getEmail())
+                    .phoneNumber(userInfoDto.getPhoneNumber())
+                    .profileImageUrl(userInfoDto.getProfileImageUrl())
+                    .nationality(userInfoDto.getNationality())
+                    .roleType(RoleType.getRoleTypeOfString(userInfoDto.getRoleType()))
                     .build()
         );
 
@@ -102,6 +105,8 @@ public class UserLoginService {
         RenewAccessTokenDto renewAccessTokenDto = tokenRenewService.renewAccessToken(renewRefreshToken); // accessToken 갱신
         String renewAccessToken = renewAccessTokenDto.getRenewAccessToken();
 
+        Long workplaceId = getLatestWorkplaceIdByUserSeq(user.getUserSeq());
+
         return UserAndTokenResponseDto.builder()
                 .name(user.getUserName())
                 .email(user.getEmail())
@@ -111,6 +116,7 @@ public class UserLoginService {
                 .roleType(user.getRoleType().toString())
                 .accessToken(renewAccessToken)
                 .refreshToken(renewRefreshToken)
+                .workplaceId(workplaceId)
                 .build();
     }
 
@@ -125,6 +131,17 @@ public class UserLoginService {
         Optional<UserRefreshToken> userRefreshToken = userRefreshTokenRepository.findByUser_UserSeq(user.getUserSeq());
 
         userRefreshToken.ifPresent(userRefreshTokenRepository::delete);
+    }
+
+    // 해당 사용자가 가장 최근에 출근한 기록을 찾고 해당 출근 기록에 맞는 작업현장Id를 반환하는 기능
+    private Long getLatestWorkplaceIdByUserSeq(Long userSeq) {
+        Attendance latestAttendance = attendanceRepository.findFirstByUser_UserSeqOrderByAttendTimeDesc(userSeq);
+
+        if (latestAttendance == null) {
+            return null;
+        }
+
+        return latestAttendance.getWorkPlace().getWorkplaceId();
     }
 
     public User test(Principal principal) {

@@ -1,7 +1,6 @@
 package com.gdsc.cofence.service.workplace;
 
-import com.gdsc.cofence.dto.wokrplaceDto.WorkPlaceMetaDto;
-import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlaceNameDto;
+import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceMetaDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlacePagingAmountRequestDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseWrapperDto;
@@ -25,10 +24,11 @@ public class WorkPlaceService {
 
     private final WorkplaceRepository workplaceRepository;
 
+    // 전체 작업현장을 페이지네이션을 통해서 불러옴
     public WorkPlaceResponseWrapperDto getWorkPlaces(WorkPlacePagingAmountRequestDto requestDto,
                                                      Principal principal) {
 
-        if (principal == null) { // principal 객체에 null담기는거 문제 해결하기
+        if (principal == null) { // principal 객체에 null담기는거 문제 해결
             throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
                     ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
         }

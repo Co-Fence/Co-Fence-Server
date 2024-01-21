@@ -1,4 +1,4 @@
-package com.gdsc.cofence.dto.wokrplaceDto;
+package com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse;
 
 
 import lombok.Builder;
