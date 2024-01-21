@@ -68,7 +68,6 @@ public class User {
     private LocalDateTime modifiedAt;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Attendance> attendances = new ArrayList<>();
-
+    private List<Attendance> attendances;
     // 사용자 정보 수정사항에 있어서 update메서드등 새로 만들어야함
 }
