@@ -35,6 +35,6 @@ public class ReportRegistrationResponseDto {
         this.reportStatus = reportManagement.getReportStatus().getDisplayName();
         this.actionStatus = reportManagement.getActionStatus().getDisplayName();
         this.userSeq = reportManagement.getUser().getUserSeq();
-        this.reportedWorkplaceId = reportManagement.getReportedWorkplaceId();
+        this.reportedWorkplaceId = reportManagement.getReportedWorkplace().getWorkplaceId();
     }
 }

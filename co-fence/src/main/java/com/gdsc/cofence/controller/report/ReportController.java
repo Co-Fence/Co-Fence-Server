@@ -3,6 +3,7 @@ package com.gdsc.cofence.controller.report;
 import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportRegistrationRequestDto;
 import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportSearchRequestDto;
 import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportRegistrationResponseDto;
+import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportSearchDetailResponseDto;
 import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportSearchResponseDto;
 import com.gdsc.cofence.service.report.ReportRegisterService;
 import com.gdsc.cofence.service.report.ReportSearchService;
@@ -12,6 +13,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +46,15 @@ public class ReportController {
                                                                        @RequestParam int page, @RequestParam int size,
                                                                        Principal principal) {
         Page<ReportSearchResponseDto> result = reportSearchService.searchReports(requestDto, page, size, principal);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/detail/{reportId}")
+    @Operation(summary = "신고Id를 통해서 신고 상세내역을 조회", description = "reportId를 받아서 해당 신고 내역에 대한 상세 정보를 조회합니다. ")
+    public ResponseEntity<ReportSearchDetailResponseDto> getDetailReport(@PathVariable Long reportId, Principal principal) {
+
+        ReportSearchDetailResponseDto result = reportSearchService.getReportDetail(reportId, principal);
 
         return ResponseEntity.ok(result);
     }

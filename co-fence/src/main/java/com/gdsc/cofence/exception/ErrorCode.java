@@ -31,8 +31,9 @@ public enum ErrorCode {
     INVALID_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
 
     // 403 Forbidden
-    FORBIDDEN_AUTH_EXCEPTION(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다."),
-    EXPIRED_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
+    FORBIDDEN_AUTH_EXCEPTION(HttpStatus.FORBIDDEN, "권한 정보가 없는 토큰입니다."),
+    EXPIRED_TOKEN_EXCEPTION(HttpStatus.FORBIDDEN, "토큰이 만료되었습니다."),
+    ACCESS_DENIED_EXCEPTION(HttpStatus.FORBIDDEN, "접근 권한이 없습니다. "),
 
     // 404 NOT FOUND
     NOT_FOUND_ID_EXCEPTION(HttpStatus.NOT_FOUND, "찾을 수 없는 ID"),

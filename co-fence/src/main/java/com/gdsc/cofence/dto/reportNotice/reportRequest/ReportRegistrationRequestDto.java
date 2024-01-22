@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReportRegistrationRequestDto {
 
+    private Long workplaceId;
     private String reportSubject;
     private String reportDetail;
     private List<String> reportImageUrls;
