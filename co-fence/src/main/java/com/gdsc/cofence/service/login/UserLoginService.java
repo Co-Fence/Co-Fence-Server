@@ -2,7 +2,8 @@ package com.gdsc.cofence.service.login;
 
 import com.gdsc.cofence.dto.tokenDto.RenewAccessTokenDto;
 import com.gdsc.cofence.dto.userDto.UserEmailDto;
-import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenResponseDto;
+import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenLoginResponseDto;
+import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenSignUpResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.user.RoleType;
 import com.gdsc.cofence.entity.user.User;
@@ -14,6 +15,7 @@ import com.gdsc.cofence.jwt.TokenProvider;
 import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.UserRefreshTokenRepository;
 import com.gdsc.cofence.repository.UserRepository;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +25,7 @@ import java.util.Optional;
 
 
 @Service
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional
 public class UserLoginService {
 
@@ -34,7 +36,7 @@ public class UserLoginService {
     private final AttendanceRepository attendanceRepository;
 
     @Transactional
-    public UserAndTokenResponseDto SignUp(UserInfoDto userInfoDto) {
+    public UserAndTokenSignUpResponseDto SignUp(UserInfoDto userInfoDto) {
 
         Optional<User> existingUser = userRepository.findByEmail(userInfoDto.getEmail()); // 이메일 중복검사
         if (existingUser.isPresent()) {
@@ -70,7 +72,7 @@ public class UserLoginService {
         // 새로운 리프레시토큰을 저장
         userRefreshTokenRepository.save(userRefreshToken);
 
-        return UserAndTokenResponseDto.builder()
+        return UserAndTokenSignUpResponseDto.builder()
                 .name(user.getUserName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
@@ -85,7 +87,7 @@ public class UserLoginService {
 
     // 사용자 email을 받아서 사용자 검색하고 그 사용자에 맞는 갱신된 refreshToken, accessToken 반환
     @Transactional
-    public UserAndTokenResponseDto login(UserEmailDto userEmailDto) {
+    public UserAndTokenLoginResponseDto login(UserEmailDto userEmailDto) {
         String email = userEmailDto.getEmail();
 
         User user = userRepository.findByEmail(email) // email로 사용자 정보 찾아서 user에 저장
@@ -107,7 +109,7 @@ public class UserLoginService {
 
         Long workplaceId = getLatestWorkplaceIdByUserSeq(user.getUserSeq());
 
-        return UserAndTokenResponseDto.builder()
+        return UserAndTokenLoginResponseDto.builder()
                 .name(user.getUserName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())

@@ -22,6 +22,8 @@ public enum ErrorCode {
     INVALID_ID_EXCEPTION(HttpStatus.BAD_REQUEST, "사용자 ID가 유효하지 않습니다. "),
     INVALID_SIGNATURE_EXCEPTION(HttpStatus.BAD_REQUEST, "JWT 토큰의 서명이 올바르지 않습니다."),
     INVALID_DISPLAY_NAME_EXCEPTION(HttpStatus.BAD_REQUEST, "유효하지 않은 displayName입니다. "),
+    NUMBER_LESS_THAN_ZERO_EXCEPTION(HttpStatus.BAD_REQUEST, "페이지의 크기 번호나 페이지의 사이즈는 0 미만일 수 없습니다. "),
+    AFTER_END_DATE_EXCEPTION(HttpStatus.BAD_REQUEST, "검색필터의 start date가 end date보다 늦을수 없습니다. "),
 
     // 401 Unauthorized
     UNAUTHORIZED_EMAIL_EXCEPTION(HttpStatus.UNAUTHORIZED, "이메일 인증이 되지 않은 유저"),
@@ -37,6 +39,7 @@ public enum ErrorCode {
     NOT_FOUND_POST_EXCEPTION(HttpStatus.NOT_FOUND, "찾을 수 없는 게시글"),
     NOT_FOUND_EMAIL_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 이메일"),
     NOT_FOUND_WORK_RECORD_EXCEPTION(HttpStatus.NOT_FOUND, "해당 사용자의 근무 기록이 존재하지 않습니다."),
+    NOT_FOUND_REPORTS_EXCEPTION(HttpStatus.NOT_FOUND, "해당 검색 필터에 맞는 신고 내역들이 존재하지 않습니다"),
 
     // 409 Conflict
     ALREADY_EXIST_EMAIL_EXCEPTION(HttpStatus.CONFLICT, "이미 회원가입이 완료된 사용자입니다."),

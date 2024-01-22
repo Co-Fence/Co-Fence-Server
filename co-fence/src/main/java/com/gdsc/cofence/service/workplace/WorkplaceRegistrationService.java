@@ -15,6 +15,7 @@ import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.UserRepository;
 import com.gdsc.cofence.repository.WorkplaceRepository;
 import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional
 public class WorkplaceRegistrationService {
 

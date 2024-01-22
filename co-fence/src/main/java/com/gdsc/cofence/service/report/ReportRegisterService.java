@@ -8,23 +8,22 @@ import com.gdsc.cofence.entity.report.ReportManagement;
 import com.gdsc.cofence.entity.report.ReportStatus;
 import com.gdsc.cofence.entity.user.User;
 import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.SuccessCode;
 import com.gdsc.cofence.exception.model.CustomException;
 import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.ReportRepository;
 import com.gdsc.cofence.repository.UserRepository;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.List;
 
 
 @Service
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional
-public class ReportService {
+public class ReportRegisterService {
 
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
@@ -67,6 +66,7 @@ public class ReportService {
         return new ReportRegistrationResponseDto(reportManagement);
     }
 
+    // 해당 근로자의 출근시간을 이용해서 현재 사용자가 근무중인 작업현장의 Id를 반환하는 메서드
     private Long getLatestWorkplaceIdByUserSeq(Long userSeq) {
         Attendance latestAttendance = attendanceRepository.findFirstByUser_UserSeqOrderByAttendTimeDesc(userSeq);
 

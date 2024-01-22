@@ -1,15 +1,15 @@
 package com.gdsc.cofence.controller.workplace;
 
 import com.gdsc.cofence.dto.userDto.AttendanceUserInfoDto;
-import com.gdsc.cofence.dto.userDto.UserInfoDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlacePagingAmountRequestDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.UserRegistrationResponseDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseWrapperDto;
-import com.gdsc.cofence.service.workplace.WorkPlaceService;
+import com.gdsc.cofence.service.workplace.WorkPlaceSearchService;
 import com.gdsc.cofence.service.workplace.WorkplaceRegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,12 +28,12 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Tag(name = "작업 현장")
 @RequestMapping("/api/v22/wp")
 public class WorkplaceController {
 
-    private final WorkPlaceService workPlaceService;
+    private final WorkPlaceSearchService workPlaceSearchService;
     private final WorkplaceRegistrationService workplaceRegistrationService;
 
     @PostMapping("/checkIn/{workplaceId}")
@@ -47,7 +47,7 @@ public class WorkplaceController {
     @GetMapping("/getInfo")
     @Operation(summary = "작업현장을 불러옵니다", description = "불러올 페이지를 정하고 몇개의 데이터를 받아올지 파라미터로 받고, accessToken Authorization에 accessToken을 받고 검증이 완료되면 반환")
     public ResponseEntity<WorkPlaceResponseWrapperDto> getWorkPlaces(@ModelAttribute WorkPlacePagingAmountRequestDto requestDto, Principal principal) {
-        WorkPlaceResponseWrapperDto data = workPlaceService.getWorkPlaces(requestDto, principal);
+        WorkPlaceResponseWrapperDto data = workPlaceSearchService.getWorkPlaces(requestDto, principal);
         return ResponseEntity.ok(data);
     }
 
@@ -57,7 +57,7 @@ public class WorkplaceController {
                                                                              Pageable pageable,
                                                                              Principal principal) {
 
-        Page<WorkPlaceResponseDto> workPlaces = workPlaceService.searchWorkPlaceByName(keyword, pageable, principal);
+        Page<WorkPlaceResponseDto> workPlaces = workPlaceSearchService.searchWorkPlaceByName(keyword, pageable, principal);
         return new ResponseEntity<>(workPlaces, HttpStatus.OK);
     }
 
@@ -65,7 +65,7 @@ public class WorkplaceController {
     @Operation(summary = "작업현장을 Id로 검색", description = "작업현장 Id를 파라미터값으로 받고 인증과정을 거친 사용자면 해당 현장정보를 가져온다")
     public ResponseEntity<WorkPlaceResponseDto> searchWorkPlaceById(@RequestParam Long id, Principal principal) {
 
-        WorkPlaceResponseDto workPlaceData = workPlaceService.searchWorkPlaceById(id, principal);
+        WorkPlaceResponseDto workPlaceData = workPlaceSearchService.searchWorkPlaceById(id, principal);
 
         return ResponseEntity.ok(workPlaceData);
     }

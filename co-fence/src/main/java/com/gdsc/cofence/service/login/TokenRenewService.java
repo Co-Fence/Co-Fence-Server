@@ -11,11 +11,12 @@ import com.gdsc.cofence.jwt.TokenProvider;
 import com.gdsc.cofence.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class TokenRenewService {
 
     private final TokenProvider tokenProvider;

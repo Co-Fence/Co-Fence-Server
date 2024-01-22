@@ -3,11 +3,13 @@ package com.gdsc.cofence.controller.login;
 import com.gdsc.cofence.dto.tokenDto.RenewAccessTokenDto;
 import com.gdsc.cofence.dto.userDto.UserEmailDto;
 import com.gdsc.cofence.dto.userDto.UserInfoDto;
-import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenResponseDto;
+import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenLoginResponseDto;
+import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenSignUpResponseDto;
 import com.gdsc.cofence.service.login.TokenRenewService;
 import com.gdsc.cofence.service.login.UserLoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Tag(name = "인증")
 @RequestMapping("/api/v22/auth")
 public class LoginController {
@@ -35,16 +37,16 @@ public class LoginController {
 
     @PostMapping("/signUp")
     @Operation(summary = "회원가입", description = "사용자 정보를 받고 DB에 저장하고 refreshToken, accessToken을 발급해서 회원가입을 진행하고 사용자 정보와 함께 반환합니다.")
-    public ResponseEntity<UserAndTokenResponseDto> signUp(@RequestBody UserInfoDto userInfoDto) {
-        UserAndTokenResponseDto userData = userLoginService.SignUp(userInfoDto);
+    public ResponseEntity<UserAndTokenSignUpResponseDto> signUp(@RequestBody UserInfoDto userInfoDto) {
+        UserAndTokenSignUpResponseDto userData = userLoginService.SignUp(userInfoDto);
 
         return ResponseEntity.ok(userData);
     }
 
     @PostMapping("/login")
     @Operation(summary = "로그인", description = "사용자 email을 받아서 해당 사용자를 찾고 갱신된 accessToken, refreshToken 사용자 정보와 함께 반환합니다.")
-    public ResponseEntity<UserAndTokenResponseDto> login(@RequestBody UserEmailDto userEmailDto) {
-        UserAndTokenResponseDto refreshUserData = userLoginService.login(userEmailDto);
+    public ResponseEntity<UserAndTokenLoginResponseDto> login(@RequestBody UserEmailDto userEmailDto) {
+        UserAndTokenLoginResponseDto refreshUserData = userLoginService.login(userEmailDto);
 
         return ResponseEntity.ok(refreshUserData);
     }

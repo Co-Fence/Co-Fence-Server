@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class UserAndTokenResponseDto {
+public class UserAndTokenLoginResponseDto {
 
     private String name;
     private String email;
