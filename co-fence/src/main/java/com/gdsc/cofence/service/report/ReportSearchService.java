@@ -31,7 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReportSearchService {
 
@@ -49,7 +49,6 @@ public class ReportSearchService {
                         "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
 
         Long reportingWorkplaceId = getLatestWorkplaceIdByUserSeq(user.getUserSeq());
-        System.out.println(reportingWorkplaceId);
 
         // 잘못된 page, size의 번호 처리
         if (page < 0 || size < 0) {

@@ -70,4 +70,10 @@ public class ReportManagement {
 
     // update와 관련된 메서드 작성 예정
 
+    public void updateReportOnlyAdmin(String reportSubject, ActionStatus actionStatus, ReportStatus reportStatus, LocalDateTime modifiedAt) {
+        this.reportSubject = reportSubject;
+        this.actionStatus = actionStatus;
+        this.reportStatus = reportStatus;
+        this.modifiedAt = modifiedAt;
+    }
 }

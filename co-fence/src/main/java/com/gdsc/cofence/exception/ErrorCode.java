@@ -29,6 +29,7 @@ public enum ErrorCode {
     UNAUTHORIZED_EMAIL_EXCEPTION(HttpStatus.UNAUTHORIZED, "이메일 인증이 되지 않은 유저"),
     UNAUTHORIZED_EXCEPTION(HttpStatus.UNAUTHORIZED, "인증되지 않은 사용자."),
     INVALID_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
+    UNAUTHORIZED_ONLY_OWN_WORKPLACE_EXCEPTION(HttpStatus.UNAUTHORIZED, "관리자는 자신의 작업장에서 발생한 신고만 수정할 수 있습니다."),
 
     // 403 Forbidden
     FORBIDDEN_AUTH_EXCEPTION(HttpStatus.FORBIDDEN, "권한 정보가 없는 토큰입니다."),

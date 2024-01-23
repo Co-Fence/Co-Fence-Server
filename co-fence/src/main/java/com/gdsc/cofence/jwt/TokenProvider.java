@@ -99,9 +99,10 @@ public class TokenProvider {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-//        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(claims.get("Role").toString()));
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(claims.getSubject(),"", authorities);
+        authentication.setDetails(claims);
 
-        return new UsernamePasswordAuthenticationToken(claims.getSubject(), "", authorities);
+        return authentication;
     }
 
     public String resolveToken(HttpServletRequest request) { //토큰 분해/분석

@@ -2,11 +2,14 @@ package com.gdsc.cofence.controller.report;
 
 import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportRegistrationRequestDto;
 import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportSearchRequestDto;
+import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportUpdateRequestDto;
 import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportRegistrationResponseDto;
 import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportSearchDetailResponseDto;
 import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportSearchResponseDto;
+import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportUpdateResponseDto;
 import com.gdsc.cofence.service.report.ReportRegisterService;
 import com.gdsc.cofence.service.report.ReportSearchService;
+import com.gdsc.cofence.service.report.ReportUpdateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
@@ -16,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +35,7 @@ public class ReportController {
 
     private final ReportRegisterService reportRegisterService;
     private final ReportSearchService reportSearchService;
+    private final ReportUpdateService reportUpdateService;
 
     @PostMapping("/register")
     @Operation(summary = "신고등록하는 api", description = "requestBody를 통해서 신고관련 정보를 받아서 해당 신고에 대한 정보를 반환합니다. ")
@@ -57,5 +62,14 @@ public class ReportController {
         ReportSearchDetailResponseDto result = reportSearchService.getReportDetail(reportId, principal);
 
         return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("update/{reportId}")
+    @Operation(summary = "신고내용을 관리자가 수정", description = "reportId와 수정할 내용을 requestBody로 받아서 관리자만이 해당 신고내용을 수정하고 그 결과를 반환합니다. ")
+    public ResponseEntity<ReportUpdateResponseDto> updateReportOnlyAdMin(@PathVariable Long reportId,
+                                                                         @RequestBody ReportUpdateRequestDto requestDto,
+                                                                         Principal principal) {
+        ReportUpdateResponseDto updateResult = reportUpdateService.updateReport(reportId, requestDto, principal);
+        return ResponseEntity.ok(updateResult);
     }
 }
