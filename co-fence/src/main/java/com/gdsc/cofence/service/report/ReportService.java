@@ -2,15 +2,14 @@ package com.gdsc.cofence.service.report;
 
 import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportUpdateRequestDto;
 import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportUpdateResponseDto;
-import com.gdsc.cofence.dto.tokenDto.TokenParsing.UserAccessTokenParsingDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.report.ActionStatus;
 import com.gdsc.cofence.entity.report.ReportManagement;
 import com.gdsc.cofence.entity.report.ReportStatus;
 import com.gdsc.cofence.entity.user.User;
 import com.gdsc.cofence.exception.ErrorCode;
+import com.gdsc.cofence.exception.SuccessCode;
 import com.gdsc.cofence.exception.model.CustomException;
-import com.gdsc.cofence.jwt.TokenProvider;
 import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.ReportRepository;
 import com.gdsc.cofence.repository.UserRepository;
@@ -26,7 +25,7 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional
-public class ReportUpdateService {
+public class ReportService {
 
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
@@ -36,10 +35,7 @@ public class ReportUpdateService {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ReportUpdateResponseDto updateReport(Long reportId, ReportUpdateRequestDto requestDto, Principal principal) {
 
-        Long userId = Long.parseLong(principal.getName());
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
-                        "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
+        User user = getUserByPrincipal(principal);
 
         Long WorkplaceId = getLatestWorkplaceIdByUserSeq(user.getUserSeq());
 
@@ -80,5 +76,39 @@ public class ReportUpdateService {
         }
 
         return latestAttendance.getWorkPlace().getWorkplaceId();
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteReport(Long reportId, Principal principal) {
+
+        User user = getUserByPrincipal(principal);
+
+        Long WorkplaceId = getLatestWorkplaceIdByUserSeq(user.getUserSeq());
+
+        ReportManagement reportManagement = reportRepository.findById(reportId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
+                        "신고: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
+
+        if (!reportManagement.getReportedWorkplace().getWorkplaceId().equals(WorkplaceId)) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ONLY_OWN_WORKPLACE_EXCEPTION,
+                    ErrorCode.UNAUTHORIZED_ONLY_OWN_WORKPLACE_EXCEPTION.getMessage());
+        }
+
+        reportRepository.delete(reportManagement);
+
+        return SuccessCode.DELETE_REPORT_SUCCESS.getMessage();
+    }
+
+    public Long findUserIdByPrincipal(String principalName) {
+        return Long.parseLong(principalName);
+    }
+
+    private User getUserByPrincipal(Principal principal) {
+        Long userId = findUserIdByPrincipal(principal.getName());
+
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
+                        "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
     }
 }
