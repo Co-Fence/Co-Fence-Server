@@ -15,7 +15,6 @@ import com.gdsc.cofence.repository.ReportRepository;
 import com.gdsc.cofence.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +24,13 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional
-public class ReportService {
+public class ReportAdminService {
 
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
 
-    @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Transactional // Role_ADMIN만 할 수 있게끔 수정하기
     public ReportUpdateResponseDto updateReport(Long reportId, ReportUpdateRequestDto requestDto, Principal principal) {
 
         User user = getUserByPrincipal(principal);
@@ -79,7 +77,6 @@ public class ReportService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteReport(Long reportId, Principal principal) {
 
         User user = getUserByPrincipal(principal);
@@ -100,7 +97,7 @@ public class ReportService {
         return SuccessCode.DELETE_REPORT_SUCCESS.getMessage();
     }
 
-    public Long findUserIdByPrincipal(String principalName) {
+    private Long findUserIdByPrincipal(String principalName) {
         return Long.parseLong(principalName);
     }
 

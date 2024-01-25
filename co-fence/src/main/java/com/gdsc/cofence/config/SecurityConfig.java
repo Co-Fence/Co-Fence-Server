@@ -6,6 +6,7 @@ import com.gdsc.cofence.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,8 +21,9 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig{
 
     private final TokenProvider tokenprovider;
 
@@ -37,12 +39,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/api/v22/**", "swagger-ui/**", "v3/api-docs/**").permitAll()
                         .requestMatchers("/test").authenticated()
+                        .requestMatchers("/api/v22/reportForAdmin/**").hasRole("ADMIN") // 관리자만 해당 URL에 접근할 수 있음
                         .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(configurationSource()))
                 .addFilterBefore(new JwtFilter(tokenprovider), UsernamePasswordAuthenticationFilter.class)
                 .build();
-
     }
 
     public CorsConfigurationSource configurationSource() {
@@ -60,5 +62,4 @@ public class SecurityConfig {
 
         return source;
     }
-
 }

@@ -49,7 +49,7 @@ public class TokenProvider {
         return Jwts.builder()
                 .setSubject(user.getUserSeq().toString())
                 .setIssuedAt(new Date())
-                .claim("Role", user.getRoleType().name())
+                .claim("Role",user.getRoleType().getCode())
                 .claim("email", user.getEmail())
                 .setExpiration(refreshTokenExpiredTime)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -63,7 +63,7 @@ public class TokenProvider {
 
         return Jwts.builder()
                 .setSubject(user.getUserSeq().toString())
-                .claim("Role", user.getRoleType().name())
+                .claim("Role",user.getRoleType().getCode())
                 .claim("email", user.getEmail())
                 .setExpiration(accessTokenExpiredTime)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -95,8 +95,10 @@ public class TokenProvider {
             throw new CustomException(ErrorCode.FORBIDDEN_AUTH_EXCEPTION, ErrorCode.FORBIDDEN_AUTH_EXCEPTION.getMessage());
         }
 
+        // 사용자의 권한 정보를 securityContextHolder에 담아준다
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("Role").toString().split(","))
-                .map(SimpleGrantedAuthority::new)
+                // 해당 hasRole이 권한 정보를 식별하기 위한 전처리 작업
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(claims.getSubject(),"", authorities);

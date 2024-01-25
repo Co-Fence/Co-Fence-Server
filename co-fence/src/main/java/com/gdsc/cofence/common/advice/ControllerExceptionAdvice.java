@@ -7,6 +7,7 @@ import com.gdsc.cofence.exception.model.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -53,6 +54,12 @@ public class ControllerExceptionAdvice {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ApiResponse handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e) {
         return ApiResponse.error(ErrorCode.REQUEST_METHOD_VALIDATION_EXCEPTION, e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ApiResponse handleAccessDeniedException(final AccessDeniedException e) {
+        return ApiResponse.error(ErrorCode.ACCESS_DENIED_EXCEPTION, e.getMessage());
     }
 
     // 500 Internal Server Error

@@ -42,6 +42,12 @@ public class ReportSearchService {
     // 신고 목록 조회하는 로직
     public Page<ReportSearchResponseDto> searchReports(ReportSearchRequestDto requestDto, int page, int size, Principal principal) {
 
+        // 잘못된 인증처리에 해당하는 예외처리
+        if (principal == null) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
+                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
+        }
+
         Long userId = Long.parseLong(principal.getName());
 
         User user = userRepository.findById(userId)
