@@ -35,7 +35,7 @@ jobs:
       env:
         DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: ./gradlew bootBuildImage --imageName=${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}
+      run: ../co-fence/gradlew bootBuildImage --imageName=${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}
 
   Deploy:
     name: Deploy application
