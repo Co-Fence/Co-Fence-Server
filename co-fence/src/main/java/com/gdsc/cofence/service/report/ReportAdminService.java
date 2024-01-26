@@ -24,13 +24,13 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional
-public class ReportAdminService {
+public class ReportAdminService { // 관리자만이 실행 할 수 있는 로직들
 
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
 
-    @Transactional // Role_ADMIN만 할 수 있게끔 수정하기
+    @Transactional
     public ReportUpdateResponseDto updateReport(Long reportId, ReportUpdateRequestDto requestDto, Principal principal) {
 
         User user = getUserByPrincipal(principal);

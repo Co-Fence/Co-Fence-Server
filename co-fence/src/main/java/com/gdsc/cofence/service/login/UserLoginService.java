@@ -38,8 +38,7 @@ public class UserLoginService {
     @Transactional
     public UserAndTokenSignUpResponseDto SignUp(UserInfoDto userInfoDto) {
 
-        Optional<User> existingUser = userRepository.findByEmail(userInfoDto.getEmail()); // 이메일 중복검사
-        if (existingUser.isPresent()) {
+        if (userRepository.existsByEmail(userInfoDto.getEmail())) { // 이메일 중복을 검사
             throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL_EXCEPTION,
                     ErrorCode.ALREADY_EXIST_EMAIL_EXCEPTION.getMessage());
         }
