@@ -1,13 +1,11 @@
-package com.gdsc.cofence.dto.reportNotice.reportResponse;
+package com.gdsc.cofence.dto.reportDto.reportResponse;
 
 import com.gdsc.cofence.entity.report.ReportManagement;
-import com.gdsc.cofence.entity.workplace.WorkPlace;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PUBLIC)

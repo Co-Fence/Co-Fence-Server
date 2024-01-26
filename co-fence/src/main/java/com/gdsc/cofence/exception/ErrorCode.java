@@ -29,7 +29,8 @@ public enum ErrorCode {
     UNAUTHORIZED_EMAIL_EXCEPTION(HttpStatus.UNAUTHORIZED, "이메일 인증이 되지 않은 유저"),
     UNAUTHORIZED_EXCEPTION(HttpStatus.UNAUTHORIZED, "인증되지 않은 사용자거나 인증과정에 오류가 있습니다. "),
     INVALID_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
-    UNAUTHORIZED_ONLY_OWN_WORKPLACE_EXCEPTION(HttpStatus.UNAUTHORIZED, "관리자는 자신의 작업장에서 발생한 신고만 수정할 수 있습니다."),
+    ONLY_OWN_WORKPLACE_REPORT_MODIFY_EXCEPTION(HttpStatus.UNAUTHORIZED, "관리자는 자신의 작업현장에서 발생한 신고만 수정할 수 있습니다."),
+    ONLY_OWN_WORKPLACE_USER_INQUIRY_EXCEPTION(HttpStatus.UNAUTHORIZED, "관리자는 자신의 작업현장의 근로자만 조회할 수 있습니다. "),
 
     // 403 Forbidden
     FORBIDDEN_AUTH_EXCEPTION(HttpStatus.FORBIDDEN, "권한 정보가 없는 토큰입니다."),
@@ -43,6 +44,7 @@ public enum ErrorCode {
     NOT_FOUND_EMAIL_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 이메일"),
     NOT_FOUND_WORK_RECORD_EXCEPTION(HttpStatus.NOT_FOUND, "해당 사용자의 근무 기록이 존재하지 않습니다."),
     NOT_FOUND_REPORTS_EXCEPTION(HttpStatus.NOT_FOUND, "해당 검색 필터에 맞는 신고 내역들이 존재하지 않습니다"),
+    NOT_FOUND_ATTENDANCE_EXCEPTION(HttpStatus.NOT_FOUND, "해당 사용자에 대한 출근 기록이 없습니다. "),
 
     // 409 Conflict
     ALREADY_EXIST_EMAIL_EXCEPTION(HttpStatus.CONFLICT, "이미 회원가입이 완료된 사용자입니다."),

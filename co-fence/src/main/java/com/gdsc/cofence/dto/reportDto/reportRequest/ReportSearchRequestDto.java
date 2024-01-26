@@ -1,26 +1,24 @@
-package com.gdsc.cofence.dto.reportNotice.reportResponse;
+package com.gdsc.cofence.dto.reportDto.reportRequest;
 
 import com.gdsc.cofence.entity.report.ActionStatus;
 import com.gdsc.cofence.entity.report.ReportStatus;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class ReportSearchDetailResponseDto {
+public class ReportSearchRequestDto {
 
-    private String reportSubject;
     private String actionStatus;
     private String reportStatus;
-    private String reportImageUrl;
-    private String reportDetail;
-    private String userName;
-    private LocalDateTime createAt;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
+
     public ActionStatus getActionStatusEnum() {
         return ActionStatus.fromDisplayName(this.actionStatus);
     }

@@ -1,7 +1,7 @@
 package com.gdsc.cofence.service.report;
 
-import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportUpdateRequestDto;
-import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportUpdateResponseDto;
+import com.gdsc.cofence.dto.reportDto.reportRequest.ReportUpdateRequestDto;
+import com.gdsc.cofence.dto.reportDto.reportResponse.ReportUpdateResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.report.ActionStatus;
 import com.gdsc.cofence.entity.report.ReportManagement;
@@ -42,8 +42,8 @@ public class ReportAdminService { // 관리자만이 실행 할 수 있는 로�
                         "신고: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
 
         if (!reportManagement.getReportedWorkplace().getWorkplaceId().equals(WorkplaceId)) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_ONLY_OWN_WORKPLACE_EXCEPTION,
-                    ErrorCode.UNAUTHORIZED_ONLY_OWN_WORKPLACE_EXCEPTION.getMessage());
+            throw new CustomException(ErrorCode.ONLY_OWN_WORKPLACE_REPORT_MODIFY_EXCEPTION,
+                    ErrorCode.ONLY_OWN_WORKPLACE_REPORT_MODIFY_EXCEPTION.getMessage());
         }
 
         reportManagement.updateReportOnlyAdmin(
@@ -88,8 +88,8 @@ public class ReportAdminService { // 관리자만이 실행 할 수 있는 로�
                         "신고: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
 
         if (!reportManagement.getReportedWorkplace().getWorkplaceId().equals(WorkplaceId)) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_ONLY_OWN_WORKPLACE_EXCEPTION,
-                    ErrorCode.UNAUTHORIZED_ONLY_OWN_WORKPLACE_EXCEPTION.getMessage());
+            throw new CustomException(ErrorCode.ONLY_OWN_WORKPLACE_REPORT_MODIFY_EXCEPTION,
+                    ErrorCode.ONLY_OWN_WORKPLACE_REPORT_MODIFY_EXCEPTION.getMessage());
         }
 
         reportRepository.delete(reportManagement);

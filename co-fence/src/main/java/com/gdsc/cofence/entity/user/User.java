@@ -1,5 +1,6 @@
 package com.gdsc.cofence.entity.user;
 
+import com.gdsc.cofence.dto.userDto.userResponse.UserListResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -69,5 +70,15 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Attendance> attendances;
+
+    public UserListResponseDto toDto() {
+      return UserListResponseDto.builder()
+              .userId(this.userSeq)
+              .userName(this.userName)
+              .profileImageUrl(this.profileImageUrl)
+              .roleType(this.roleType.toString())
+              .build();
+    }
+
     // 사용자 정보 수정사항에 있어서 update메서드등 새로 만들어야함
 }

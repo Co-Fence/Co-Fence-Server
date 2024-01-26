@@ -1,7 +1,7 @@
 package com.gdsc.cofence.controller.report;
 
-import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportUpdateRequestDto;
-import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportUpdateResponseDto;
+import com.gdsc.cofence.dto.reportDto.reportRequest.ReportUpdateRequestDto;
+import com.gdsc.cofence.dto.reportDto.reportResponse.ReportUpdateResponseDto;
 import com.gdsc.cofence.service.report.ReportAdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,4 +1,4 @@
-package com.gdsc.cofence.dto.reportNotice.reportRequest;
+package com.gdsc.cofence.dto.reportDto.reportRequest;
 
 import com.gdsc.cofence.entity.report.ReportStatus;
 import lombok.AccessLevel;

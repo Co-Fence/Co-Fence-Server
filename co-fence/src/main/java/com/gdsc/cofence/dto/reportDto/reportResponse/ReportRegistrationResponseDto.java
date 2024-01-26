@@ -1,7 +1,6 @@
-package com.gdsc.cofence.dto.reportNotice.reportResponse;
+package com.gdsc.cofence.dto.reportDto.reportResponse;
 
 import com.gdsc.cofence.entity.report.ReportManagement;
-import com.gdsc.cofence.entity.user.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

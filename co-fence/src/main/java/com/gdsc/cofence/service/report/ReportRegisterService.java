@@ -1,7 +1,7 @@
 package com.gdsc.cofence.service.report;
 
-import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportRegistrationRequestDto;
-import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportRegistrationResponseDto;
+import com.gdsc.cofence.dto.reportDto.reportRequest.ReportRegistrationRequestDto;
+import com.gdsc.cofence.dto.reportDto.reportResponse.ReportRegistrationResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.report.ActionStatus;
 import com.gdsc.cofence.entity.report.ReportManagement;

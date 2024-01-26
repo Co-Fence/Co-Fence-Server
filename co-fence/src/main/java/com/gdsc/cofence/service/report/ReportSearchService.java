@@ -1,18 +1,15 @@
 package com.gdsc.cofence.service.report;
 
-import com.gdsc.cofence.dto.reportNotice.reportRequest.ReportSearchRequestDto;
-import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportSearchDetailResponseDto;
-import com.gdsc.cofence.dto.reportNotice.reportResponse.ReportSearchResponseDto;
+import com.gdsc.cofence.dto.reportDto.reportRequest.ReportSearchRequestDto;
+import com.gdsc.cofence.dto.reportDto.reportResponse.ReportSearchDetailResponseDto;
+import com.gdsc.cofence.dto.reportDto.reportResponse.ReportSearchResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.user.User;
-import com.gdsc.cofence.entity.workplace.WorkPlace;
 import com.gdsc.cofence.exception.ErrorCode;
 import com.gdsc.cofence.exception.model.CustomException;
 import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.ReportRepository;
 import com.gdsc.cofence.repository.UserRepository;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,8 +24,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
