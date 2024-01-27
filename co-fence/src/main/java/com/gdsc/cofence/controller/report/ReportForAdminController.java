@@ -39,6 +39,7 @@ public class ReportForAdminController {
     }
 
     @DeleteMapping("/delete/{reportId}")
+    @Operation(summary = "신고 삭제", description = "reportId를 받아서 해당 신고를 삭제합니다")
     public ResponseEntity<String> deleteReportByAdmin(@PathVariable Long reportId, Principal principal) {
 
         String deleteSuccess = reportAdminService.deleteReport(reportId, principal);
