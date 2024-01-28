@@ -29,7 +29,7 @@ public class UserCommunicateService {
     private final AttendanceRepository attendanceRepository;
 
     // 해당 작업현장에 근무하고있는 근로자, 관리자들을 리스트로 반환하는 로직
-    public List<UserListResponseDto> getWorkplaceUserInfoList(Principal principal) {
+    public List<UserListResponseDto> getUserInfoList(Principal principal) {
 
         Long userId = Long.parseLong(principal.getName());
 
@@ -84,6 +84,7 @@ public class UserCommunicateService {
     }
 
 
+    // 사용자 상세 정보 조회하는 로직
     public UserInfoDto getUserDetailInfo(Long userId, Principal principal) {
 
         User user = userRepository.findById(userId)
@@ -97,16 +98,5 @@ public class UserCommunicateService {
                 .nationality(user.getNationality())
                 .phoneNumber(user.getPhoneNumber())
                 .build();
-    }
-
-    private Long getLatestWorkplaceIdByUserSeq(Long userSeq) {
-        Attendance latestAttendance = attendanceRepository.findFirstByUser_UserSeqOrderByAttendTimeDesc(userSeq);
-
-        if (latestAttendance == null) {
-            throw new CustomException(ErrorCode.NOT_FOUND_WORK_RECORD_EXCEPTION,
-                    ErrorCode.NOT_FOUND_WORK_RECORD_EXCEPTION.getMessage());
-        }
-
-        return latestAttendance.getWorkPlace().getWorkplaceId();
     }
 }
