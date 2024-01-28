@@ -1,6 +1,7 @@
 package com.gdsc.cofence.service.communicate;
 
 import com.gdsc.cofence.dto.userDto.UserInfoDto;
+import com.gdsc.cofence.dto.userDto.userRequest.UserNameRequestDto;
 import com.gdsc.cofence.dto.userDto.userResponse.UserListResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.user.User;
@@ -27,6 +28,7 @@ public class UserCommunicateService {
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
 
+    // 해당 작업현장에 근무하고있는 근로자, 관리자들을 리스트로 반환하는 로직
     public List<UserListResponseDto> getWorkplaceUserInfoList(Principal principal) {
 
         Long userId = Long.parseLong(principal.getName());
@@ -48,27 +50,51 @@ public class UserCommunicateService {
                 .collect(Collectors.toList());
     }
 
-    public UserInfoDto getUserDetailInfo(Long userId, Principal principal) {
+    // 이름으로 동일한 작업현장에 있는 근로자, 관리자를 검색하는 로직
+    public List<UserListResponseDto> searchUserByName(UserNameRequestDto userNameRequestDto, Principal principal) {
 
-        Long adminUserId = Long.parseLong(principal.getName());
-        Long adminWorkplaceId = getLatestWorkplaceIdByUserSeq(adminUserId);
+        Long userId = Long.parseLong(principal.getName());
+
+        String userName = userNameRequestDto.getUserName();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
+                        "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
+
+        Attendance latestAttendance = user.getAttendances().stream()
+                .max(Comparator.comparing(Attendance::getAttendTime))
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ATTENDANCE_EXCEPTION,
+                        ErrorCode.NOT_FOUND_ATTENDANCE_EXCEPTION.getMessage()));
+
+        WorkPlace workPlace = latestAttendance.getWorkPlace();
+
+        List<User> users = workPlace.getAttendances().stream()
+                .map(Attendance::getUser)
+                .filter(user1 -> user1.getUserName().equals(userName))
+                .collect(Collectors.toList());
+
+        return users.stream()
+                .map(user1 -> UserListResponseDto.builder()
+                        .userId(user1.getUserSeq())
+                        .userName(user1.getUserName())
+                        .profileImageUrl(user1.getProfileImageUrl())
+                        .roleType(user1.getRoleType().toString())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+
+    public UserInfoDto getUserDetailInfo(Long userId, Principal principal) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
                         "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
 
-        Long userWorkplaceId = getLatestWorkplaceIdByUserSeq(userId);
-
-        if (adminWorkplaceId.equals(userWorkplaceId)) {
-            throw new CustomException(ErrorCode.ONLY_OWN_WORKPLACE_USER_INQUIRY_EXCEPTION,
-                    ErrorCode.ONLY_OWN_WORKPLACE_USER_INQUIRY_EXCEPTION.getMessage());
-        }
-
         return UserInfoDto.builder()
                 .name(user.getUserName())
-                .nationality(user.getNationality())
-                .roleType(user.getRoleType().toString())
                 .profileImageUrl(user.getProfileImageUrl())
+                .roleType(user.getRoleType().toString())
+                .nationality(user.getNationality())
                 .phoneNumber(user.getPhoneNumber())
                 .build();
     }
