@@ -52,11 +52,9 @@ public class UserCommunicateService {
 
     // 이름으로 동일한 작업현장에 있는 근로자, 관리자를 검색하는 로직
     public List<UserListResponseDto> searchUserByName(UserNameRequestDto userNameRequestDto, Principal principal) {
-
-        Long userId = Long.parseLong(principal.getName());
-
         String userName = userNameRequestDto.getUserName();
 
+        Long userId = Long.parseLong(principal.getName());
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
                         "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
@@ -72,6 +70,11 @@ public class UserCommunicateService {
                 .map(Attendance::getUser)
                 .filter(user1 -> user1.getUserName().equals(userName))
                 .collect(Collectors.toList());
+
+        if (users.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_USER_EXCEPTION,
+                    ErrorCode.NOT_FOUND_USER_EXCEPTION.getMessage());
+        }
 
         return users.stream()
                 .map(user1 -> UserListResponseDto.builder()
