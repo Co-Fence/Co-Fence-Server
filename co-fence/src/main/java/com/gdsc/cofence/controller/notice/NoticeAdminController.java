@@ -27,7 +27,7 @@ public class NoticeAdminController {
     private final NoticeAdminService noticeAdminService;
 
     @PostMapping("/register")
-    @Operation(summary = "공지사항 등록", description = "공지사항을 등록합니다.")
+    @Operation(summary = "공지사항 등록", description = "신고 내용과 대상을 json으로 받고 인증 객체를 통해서 해당 관리자가 공지사항을 등록합니다. ")
     public ResponseEntity<NoticeRegisterResponseDto> noticeRegister(@RequestBody NoticeRegisterRequestDto requestDto, Principal principal) {
         NoticeRegisterResponseDto result = noticeAdminService.registerNoticeOnlyAdmin(requestDto, principal);
 
