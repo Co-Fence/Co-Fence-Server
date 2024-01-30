@@ -1,19 +1,22 @@
 package com.gdsc.cofence.service.notice;
 
-import com.gdsc.cofence.dto.noticeDto.noticeRequest.NoticeRegisterRequestDto;
-import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeRegisterResponseDto;
+import com.gdsc.cofence.dto.noticeDto.noticeRequest.NoticeSearchRequestDto;
+import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeSearchResponseDto;
 import com.gdsc.cofence.entity.notice.Notice;
-import com.gdsc.cofence.entity.user.User;
 import com.gdsc.cofence.exception.ErrorCode;
 import com.gdsc.cofence.exception.model.CustomException;
 import com.gdsc.cofence.repository.NoticeRepository;
-import com.gdsc.cofence.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,33 +24,26 @@ import java.security.Principal;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final UserRepository userRepository;
 
-    public NoticeRegisterResponseDto registerNoticeOnlyAdmin(NoticeRegisterRequestDto requestDto, Principal principal) {
-        Long userId = Long.parseLong(principal.getName());
+    // 공지사항을 검색하고 페이지네이션을 통해서 검색 결과를 반환하는 로직
+    @Transactional(readOnly = true)
+    public Page<NoticeSearchResponseDto> searchNotices(NoticeSearchRequestDto requestDto, Principal principal,
+                                                       int page, int size) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
-                        "사용지: " + ErrorCode.NOT_FOUND_ID_EXCEPTION));
+        Pageable pageable = PageRequest.of(page, size);
 
-        Notice notice = Notice.builder()
-                .noticeSubject(requestDto.getNoticeSubject())
-                .targetRole(requestDto.getTargetRoleType())
-                .noticeDetail(requestDto.getNoticeDetail())
-                .noticeImageUrl(requestDto.getNoticeImageUrls())
-                .user(user)
-                .build();
+        Page<Notice> notices = noticeRepository
+                .findByNoticeSubjectContainsAndTargetRole(requestDto.getNoticeSubject(), requestDto.getTargetRoletype(), pageable);
 
-        noticeRepository.save(notice);
+        if (notices == null) {
+            throw new CustomException(ErrorCode.NOT_FOUND_NOTICE_EXCEPTION,
+                    ErrorCode.NOT_FOUND_NOTICE_EXCEPTION.getMessage());
+        }
 
-        return NoticeRegisterResponseDto.builder()
+        return notices.map(notice -> NoticeSearchResponseDto.builder()
                 .noticeId(notice.getNoticeId())
                 .noticeSubject(notice.getNoticeSubject())
-                .userName(user.getUserName())
-                .targetRoleType(notice.getTargetRole())
-                .createdAt(notice.getCreatedAt())
-                .noticeDetail(notice.getNoticeDetail())
-                .noticeImage(notice.getNoticeImageUrl())
-                .build();
+                .targetRoletype(notice.getTargetRole())
+                .build());
     }
 }

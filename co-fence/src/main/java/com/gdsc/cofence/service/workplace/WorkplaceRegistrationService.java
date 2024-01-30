@@ -141,7 +141,7 @@ public class WorkplaceRegistrationService {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
-                        "사용자: " + ErrorCode.NOT_FOUND_POST_EXCEPTION.getMessage()));
+                        "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
 
         Attendance attendance = attendanceRepository.findByUserAndWorkPlace_WorkplaceId(user, workplaceId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,

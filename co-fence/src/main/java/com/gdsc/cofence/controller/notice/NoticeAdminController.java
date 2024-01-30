@@ -2,7 +2,7 @@ package com.gdsc.cofence.controller.notice;
 
 import com.gdsc.cofence.dto.noticeDto.noticeRequest.NoticeRegisterRequestDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeRegisterResponseDto;
-import com.gdsc.cofence.service.notice.NoticeService;
+import com.gdsc.cofence.service.notice.NoticeAdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
@@ -24,12 +24,12 @@ import java.security.Principal;
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class NoticeAdminController {
 
-    private final NoticeService noticeService;
+    private final NoticeAdminService noticeAdminService;
 
     @PostMapping("/register")
     @Operation(summary = "공지사항 등록", description = "공지사항을 등록합니다.")
     public ResponseEntity<NoticeRegisterResponseDto> noticeRegister(@RequestBody NoticeRegisterRequestDto requestDto, Principal principal) {
-        NoticeRegisterResponseDto result = noticeService.registerNoticeOnlyAdmin(requestDto, principal);
+        NoticeRegisterResponseDto result = noticeAdminService.registerNoticeOnlyAdmin(requestDto, principal);
 
         return ResponseEntity.ok(result);
     }

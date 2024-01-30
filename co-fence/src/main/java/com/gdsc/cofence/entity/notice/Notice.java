@@ -40,9 +40,6 @@ public class Notice {
     @Column(name = "NOTICE_SUBJECT", nullable = false)
     private String noticeSubject;
 
-    @Column(name = "TARGET_TYPE") // 공지 대상
-    private RoleType noticeType;
-
     @Column(name = "CREATED_TIME")
     @CreatedDate
     private LocalDateTime createdAt;
@@ -54,10 +51,11 @@ public class Notice {
     @ElementCollection
     private List<String> noticeImageUrl;
 
+    @Column(name = "TARGET_ROLE", length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RoleType targetRole;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
-
-    @Enumerated(EnumType.STRING)
-    private RoleType targetRole;
 }

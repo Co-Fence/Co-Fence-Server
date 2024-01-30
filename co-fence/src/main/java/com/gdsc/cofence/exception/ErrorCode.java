@@ -40,7 +40,7 @@ public enum ErrorCode {
 
     // 404 NOT FOUND
     NOT_FOUND_ID_EXCEPTION(HttpStatus.NOT_FOUND, "찾을 수 없는 ID"),
-    NOT_FOUND_POST_EXCEPTION(HttpStatus.NOT_FOUND, "찾을 수 없는 게시글"),
+    NOT_FOUND_NOTICE_EXCEPTION(HttpStatus.NOT_FOUND, "해당 검색결과에 부합하는 공지사항이 없습니다. "),
     NOT_FOUND_EMAIL_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 이메일"),
     NOT_FOUND_WORK_RECORD_EXCEPTION(HttpStatus.NOT_FOUND, "해당 사용자의 근무 기록이 존재하지 않습니다."),
     NOT_FOUND_REPORTS_EXCEPTION(HttpStatus.NOT_FOUND, "해당 검색 필터에 맞는 신고 내역들이 존재하지 않습니다"),
