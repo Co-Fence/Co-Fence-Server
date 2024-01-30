@@ -40,6 +40,7 @@ public class SecurityConfig{
                         .requestMatchers("/api/v22/**", "swagger-ui/**", "v3/api-docs/**").permitAll()
                         .requestMatchers("/test").authenticated()
                         .requestMatchers("/api/v22/reportForAdmin/**").hasRole("ADMIN") // 관리자만 해당 URL에 접근할 수 있음
+                        .requestMatchers("api/v22/noticeForAdmin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(configurationSource()))

@@ -9,8 +9,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum RoleType {
 
-    ROLE_USER("USER", "일반 사용자"),
-    ROLE_ADMIN("ADMIN", "관리자");
+    ROLE_USER("USER", "근로자"),
+    ROLE_ADMIN("ADMIN", "관리자"),
+    ROLE_ALL("ALL", "공통");
 
     private final String code;
     private final String displayName;
