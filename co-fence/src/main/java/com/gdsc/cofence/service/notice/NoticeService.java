@@ -1,6 +1,7 @@
 package com.gdsc.cofence.service.notice;
 
 import com.gdsc.cofence.dto.noticeDto.noticeRequest.NoticeSearchRequestDto;
+import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeDetailResponseDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeSearchResponseDto;
 import com.gdsc.cofence.entity.notice.Notice;
 import com.gdsc.cofence.exception.ErrorCode;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,5 +47,28 @@ public class NoticeService {
                 .noticeSubject(notice.getNoticeSubject())
                 .targetRoletype(notice.getTargetRole())
                 .build());
+    }
+
+    // 공지사항 Id를 통해서 해당 공지사항의 세부사항을 조회하는 로직
+    @Transactional(readOnly = true)
+    public NoticeDetailResponseDto getNoticeDetail(Long noticeId, Principal principal) {
+
+        Optional<Notice> noticeOptional = noticeRepository.findById(noticeId);
+
+        if (!noticeOptional.isPresent()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
+                    "공지사항: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage());
+        }
+
+        Notice notice = noticeOptional.get();
+
+        return NoticeDetailResponseDto.builder()
+                .noticeSubject(notice.getNoticeSubject())
+                .userName(notice.getUser().getUserName())
+                .targetRole(notice.getTargetRole())
+                .createdAt(notice.getCreatedAt())
+                .noticeDetail(notice.getNoticeDetail())
+                .noticeImageUrl(notice.getNoticeImageUrl())
+                .build();
     }
 }

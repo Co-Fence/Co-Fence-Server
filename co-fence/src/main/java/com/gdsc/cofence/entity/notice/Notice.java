@@ -44,7 +44,7 @@ public class Notice {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Column(name = "NOTICE_DETAIL")
+    @Column(name = "NOTICE_DETAIL", length = 1000)
     private String noticeDetail;
 
     @Column(name = "NOTICE_IMAGE")

@@ -2,6 +2,7 @@ package com.gdsc.cofence.controller.notice;
 
 
 import com.gdsc.cofence.dto.noticeDto.noticeRequest.NoticeSearchRequestDto;
+import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeDetailResponseDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeSearchResponseDto;
 import com.gdsc.cofence.service.notice.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +37,14 @@ public class NoticeController {
         Page<NoticeSearchResponseDto> results = noticeService.searchNotices(requestDto, principal, page, size);
 
         return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("/detail/{noticeId}")
+    @Operation(summary = "공자사항 세부내용 조회", description = "noticeId를 받아서 해당 공지사항의 세부사항을 조회합니다. ")
+    public ResponseEntity<NoticeDetailResponseDto> getNoticeDetail(@PathVariable Long noticeId, Principal principal) {
+
+        NoticeDetailResponseDto result = noticeService.getNoticeDetail(noticeId, principal);
+
+        return ResponseEntity.ok(result);
     }
 }
