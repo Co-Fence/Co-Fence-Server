@@ -35,7 +35,7 @@ public class TokenRenewService {
         // 사용자 Id추출
         UserRefreshTokenParsingDto userSeqDto = getUserFromRefreshToken(refreshToken);
 
-        User user = userRepository.findByEmail(userSeqDto.getUserEmail())
+        User user = userRepository.findById(userSeqDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_EMAIL_EXCEPTION,
                         ErrorCode.NOT_FOUND_EMAIL_EXCEPTION.getMessage())); // 해당하는 사용자의 이메일을 찾을 수 없는 경우
 
@@ -64,7 +64,7 @@ public class TokenRenewService {
 
         return UserAccessTokenParsingDto.builder()
                 .userSeq(userId)
-                .roleType(RoleType.valueOf(role))
+                .roleType(RoleType.getRoleTypeOfString(role))
                 .email(email)
                 .build();
     }
@@ -74,10 +74,10 @@ public class TokenRenewService {
     public UserRefreshTokenParsingDto getUserFromRefreshToken(String refreshToken) {
         Claims claims = tokenProvider.getClaimsFromToken(refreshToken);
 
-        String userEmail = (String) claims.get("email");
+        Long userId = Long.parseLong(claims.getSubject());
 
         return UserRefreshTokenParsingDto.builder()
-                .userEmail(userEmail)
+                .userId(userId)
                 .build();
     }
 }

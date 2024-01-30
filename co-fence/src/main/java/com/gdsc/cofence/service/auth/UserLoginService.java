@@ -95,9 +95,13 @@ public class UserLoginService {
 
         String renewRefreshToken = tokenProvider.createRefreshToken(user); // 갱신된 refreshToken 생성
 
+        // 로그아웃 후 다시 로그인을 시도할 경우를 위한 로직
         UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUser_UserSeq(user.getUserSeq())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
-                        ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
+                .orElseGet(() -> {
+                    UserRefreshToken newUserRefreshToken = new UserRefreshToken();
+                    newUserRefreshToken.setUser(user);
+                    return userRefreshTokenRepository.save(newUserRefreshToken);
+                });
 
         userRefreshToken.setRefreshToken(renewRefreshToken);
         userRefreshToken.setUser(user);

@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class UserRefreshTokenParsingDto {
 
-    private String userEmail;
+    private Long userId;
 }
