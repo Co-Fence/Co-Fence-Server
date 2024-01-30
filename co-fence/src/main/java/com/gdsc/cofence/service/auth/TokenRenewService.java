@@ -1,4 +1,4 @@
-package com.gdsc.cofence.service.login;
+package com.gdsc.cofence.service.auth;
 
 import com.gdsc.cofence.dto.tokenDto.RenewAccessTokenDto;
 import com.gdsc.cofence.dto.tokenDto.TokenParsing.UserAccessTokenParsingDto;

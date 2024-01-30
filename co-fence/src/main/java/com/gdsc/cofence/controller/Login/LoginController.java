@@ -5,8 +5,8 @@ import com.gdsc.cofence.dto.userDto.UserEmailDto;
 import com.gdsc.cofence.dto.userDto.UserInfoDto;
 import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenLoginResponseDto;
 import com.gdsc.cofence.dto.userDto.userResponse.UserAndTokenSignUpResponseDto;
-import com.gdsc.cofence.service.login.TokenRenewService;
-import com.gdsc.cofence.service.login.UserLoginService;
+import com.gdsc.cofence.service.auth.TokenRenewService;
+import com.gdsc.cofence.service.auth.UserLoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -62,5 +64,13 @@ public class LoginController {
         RenewAccessTokenDto renewAccessTokenDto = tokenRenewService.renewAccessToken(refreshToken);
 
         return new ResponseEntity<>(renewAccessTokenDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "사용자의 accessToken을 입력받아서 해당 사용자의 로그아웃을 처리합니다")
+    public ResponseEntity<Void> logout(Principal principal) {
+        userLoginService.logout(principal);
+
+        return ResponseEntity.noContent().build();
     }
 }

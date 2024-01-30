@@ -1,4 +1,4 @@
-package com.gdsc.cofence.service.login;
+package com.gdsc.cofence.service.auth;
 
 import com.gdsc.cofence.dto.tokenDto.RenewAccessTokenDto;
 import com.gdsc.cofence.dto.userDto.UserEmailDto;
@@ -126,11 +126,24 @@ public class UserLoginService {
         return userRepository.existsByEmail(email);
     }
 
+    // 로그아웃을 처리하는 로직
     @Transactional
-    public void logout(User user) {
+    public void logout(Principal principal) {
+        Long userId = Long.parseLong(principal.getName());
+        if (userId == null) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
+                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
+        }
 
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
+                        "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
+
+        logoutLogic(user);
+    }
+
+    public void logoutLogic(User user) {
         Optional<UserRefreshToken> userRefreshToken = userRefreshTokenRepository.findByUser_UserSeq(user.getUserSeq());
-
         userRefreshToken.ifPresent(userRefreshTokenRepository::delete);
     }
 
@@ -143,13 +156,5 @@ public class UserLoginService {
         }
 
         return latestAttendance.getWorkPlace().getWorkplaceId();
-    }
-
-    public User test(Principal principal) {
-        Long id = Long.parseLong(principal.getName());
-
-        return userRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
-                        ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
     }
 }

@@ -18,6 +18,7 @@ public class CoFenceApplication {
     public static void main(String[] args) {
         SpringApplication.run(CoFenceApplication.class, args);}
 
+    // 프로젝트 데모 데이터
     @Bean
     public CommandLineRunner initDatabase(WorkplaceRepository repository) {
         return args -> {

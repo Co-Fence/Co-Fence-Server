@@ -47,6 +47,4 @@ public class Notice {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
-
-    // 이것도 공지 업데이트를 위한 엔티티 메서드등을 추가할 예정
 }

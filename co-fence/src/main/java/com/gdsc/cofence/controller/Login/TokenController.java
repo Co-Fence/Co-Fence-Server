@@ -2,7 +2,7 @@ package com.gdsc.cofence.controller.login;
 
 import com.gdsc.cofence.dto.tokenDto.TokenParsing.UserAccessTokenParsingDto;
 import com.gdsc.cofence.dto.tokenDto.TokenParsing.UserRefreshTokenParsingDto;
-import com.gdsc.cofence.service.login.TokenRenewService;
+import com.gdsc.cofence.service.auth.TokenRenewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
