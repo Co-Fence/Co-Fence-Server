@@ -1,7 +1,9 @@
 package com.gdsc.cofence.service.notice;
 
+import com.gdsc.cofence.dto.noticeDto.NoticeMetaDto;
 import com.gdsc.cofence.dto.noticeDto.noticeRequest.NoticeSearchRequestDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeDetailResponseDto;
+import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeResponseWrapperDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeSearchResponseDto;
 import com.gdsc.cofence.entity.notice.Notice;
 import com.gdsc.cofence.exception.ErrorCode;
@@ -28,11 +30,12 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
 
     // 공지사항을 검색하고 페이지네이션을 통해서 검색 결과를 반환하는 로직
+    // -> 테스트 해야함~ 시발
     @Transactional(readOnly = true)
-    public Page<NoticeSearchResponseDto> searchNotices(NoticeSearchRequestDto requestDto, Principal principal,
-                                                       int page, int size) {
+    public NoticeResponseWrapperDto searchNotices(NoticeSearchRequestDto requestDto, Principal principal,
+                                                  int page, int size) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<Notice> notices = noticeRepository
                 .findByNoticeSubjectContainsAndTargetRole(requestDto.getNoticeSubject(), requestDto.getTargetRoletype(), pageable);
@@ -42,11 +45,33 @@ public class NoticeService {
                     ErrorCode.NOT_FOUND_NOTICE_EXCEPTION.getMessage());
         }
 
-        return notices.map(notice -> NoticeSearchResponseDto.builder()
-                .noticeId(notice.getNoticeId())
-                .noticeSubject(notice.getNoticeSubject())
-                .targetRoletype(notice.getTargetRole())
-                .build());
+        List<NoticeSearchResponseDto> noticesDto = notices.stream()
+                .map(notice -> NoticeSearchResponseDto.builder()
+                        .noticeId(notice.getNoticeId())
+                        .noticeSubject(notice.getNoticeSubject())
+                        .targetRoletype(notice.getTargetRole())
+                        .build())
+                .collect(Collectors.toList());
+
+        NoticeMetaDto meta = NoticeMetaDto.builder()
+                .count((int) notices.getTotalElements())
+                .page(notices.getNumber() + 1)
+                .hasMore(hasMore(page, size))
+                .build();
+
+        return NoticeResponseWrapperDto.builder()
+                .meta(meta)
+                .data(noticesDto)
+                .build();
+    }
+
+    // 더 표현할 데이터가 있는지에 대한 검증
+    // true면 더 조회할 데이터가 있다는 것 / false면 더 조회할 데이터가 없다는것이다
+    // findAll()을 사용안하는 방법으로 한 번 찾아봤음
+    private Boolean hasMore(int page, int size) {
+        long totalElements = noticeRepository.count();
+
+        return totalElements > (long) page * size;
     }
 
     // 공지사항 Id를 통해서 해당 공지사항의 세부사항을 조회하는 로직

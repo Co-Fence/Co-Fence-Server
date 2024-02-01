@@ -3,6 +3,7 @@ package com.gdsc.cofence.controller.notice;
 
 import com.gdsc.cofence.dto.noticeDto.noticeRequest.NoticeSearchRequestDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeDetailResponseDto;
+import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeResponseWrapperDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeSearchResponseDto;
 import com.gdsc.cofence.service.notice.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,9 +33,9 @@ public class NoticeController {
 
     @PostMapping("/search")
     @Operation(summary = "공지사항 검색", description = "공지사항을 requestBody를 통해서 json으로 받고 파라미터값으로 page, size값을 받습니다. 페이지네이션을 통해서 검색 결과를 반환합니다.")
-    public ResponseEntity<Page<NoticeSearchResponseDto>> searchNotices(@RequestBody NoticeSearchRequestDto requestDto, Principal principal,
-                                                                       @RequestParam int page, @RequestParam int size) {
-        Page<NoticeSearchResponseDto> results = noticeService.searchNotices(requestDto, principal, page, size);
+    public ResponseEntity<NoticeResponseWrapperDto> searchNotices(@RequestBody NoticeSearchRequestDto requestDto, Principal principal,
+                                                                  @RequestParam int page, @RequestParam int size) {
+        NoticeResponseWrapperDto results = noticeService.searchNotices(requestDto, principal, page, size);
 
         return ResponseEntity.ok(results);
     }
