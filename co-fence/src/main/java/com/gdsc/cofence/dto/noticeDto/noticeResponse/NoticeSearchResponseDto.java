@@ -14,4 +14,5 @@ public class NoticeSearchResponseDto {
     private Long noticeId;
     private String noticeSubject;
     private RoleType targetRoletype;
+    private Boolean existImage;
 }
