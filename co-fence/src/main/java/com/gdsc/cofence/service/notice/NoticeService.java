@@ -45,7 +45,6 @@ public class NoticeService {
                     ErrorCode.NOT_FOUND_NOTICE_EXCEPTION.getMessage());
         }
 
-
         List<NoticeSearchResponseDto> noticesDto = notices.stream()
                 .map(notice -> NoticeSearchResponseDto.builder()
                         .noticeId(notice.getNoticeId())

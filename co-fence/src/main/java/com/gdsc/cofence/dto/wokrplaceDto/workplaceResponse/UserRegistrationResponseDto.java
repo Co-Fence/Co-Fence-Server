@@ -12,6 +12,6 @@ import lombok.Data;
 @Builder
 public class UserRegistrationResponseDto {
 
-    private WorkplaceIdDto workplaceId;
+    private WorkplaceIdDto workplaceDto;
     private AttendanceUserInfoDto attendanceUserInfoDto;
 }

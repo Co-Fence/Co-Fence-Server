@@ -53,11 +53,11 @@ public class WorkplaceController {
 
     @GetMapping("/searchByName")
     @Operation(summary = "작업현장을 이름으로 검색", description = "작업현장 이름을 파라미터값으로 받고 인증과정을 거치면 해당 작업현장이름의 키워드가 들어간 작업현장 목록들을 반환")
-    public ResponseEntity<Page<WorkPlaceResponseDto>> searchWorkPlacesByName(@RequestParam String keyword, // -> workplaceName 임
-                                                                             Pageable pageable,
-                                                                             Principal principal) {
+    public ResponseEntity<WorkPlaceResponseWrapperDto> searchWorkPlacesByName(@RequestParam String keyword, // -> workplaceName 임
+                                                                             @RequestParam int page, @RequestParam int size,
+                                                                              Principal principal) {
 
-        Page<WorkPlaceResponseDto> workPlaces = workPlaceSearchService.searchWorkPlaceByName(keyword, pageable, principal);
+        WorkPlaceResponseWrapperDto workPlaces = workPlaceSearchService.searchWorkPlaceByName(keyword, principal, page, size);
         return new ResponseEntity<>(workPlaces, HttpStatus.OK);
     }
 

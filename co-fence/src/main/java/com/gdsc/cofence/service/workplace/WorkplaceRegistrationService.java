@@ -75,7 +75,7 @@ public class WorkplaceRegistrationService {
                 .build();
 
         return UserRegistrationResponseDto.builder()
-                .workplaceId(workplaceIdDto)
+                .workplaceDto(workplaceIdDto)
                 .attendanceUserInfoDto(userInfoDto)
                 .build();
     }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,11 +29,6 @@ public class WorkPlaceSearchService {
     // 전체 작업현장을 페이지네이션을 통해서 불러옴
     public WorkPlaceResponseWrapperDto getWorkPlaces(WorkPlacePagingAmountRequestDto requestDto,
                                                      Principal principal) {
-
-        if (principal == null) { // principal 객체에 null담기는거 문제 해결
-            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
-                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
-        }
 
         Pageable pageable = PageRequest.of(requestDto.getPage() - 1, requestDto.getSize());
 
@@ -67,24 +63,36 @@ public class WorkPlaceSearchService {
         return totalElements > (long) page * size;
     }
 
+    // 작업현장 이름으로 작업현장 검색
     @Transactional(readOnly = true)
-    public Page<WorkPlaceResponseDto> searchWorkPlaceByName(String workplaceName, Pageable pageable , Principal principal) {
+    public WorkPlaceResponseWrapperDto searchWorkPlaceByName(String workplaceName, Principal principal,
+                                                             int page, int size) {
 
-        if (principal == null) {
-            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
-                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+         Page<WorkPlaceResponseDto> results = workplaceRepository.findByWorkplaceNameContaining(workplaceName, pageable)
+                .map(WorkPlaceResponseDto::new);
+
+        // 해당 검색결과에 대한 작업현장 내역이 없는 경우
+        if (results.isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_REPORTS_EXCEPTION,
+                    ErrorCode.NOT_FOUND_REPORTS_EXCEPTION.getMessage());
         }
 
-        return workplaceRepository.findByWorkplaceNameContaining(workplaceName, pageable)
-                .map(WorkPlaceResponseDto::new);
+        WorkPlaceMetaDto meta = WorkPlaceMetaDto.builder()
+                .count((int) results.getTotalElements())
+                .page(results.getNumber() + 1)
+                .hasMore(hasMore(page, size))
+                .build();
+
+        return WorkPlaceResponseWrapperDto.builder()
+                .meta(meta)
+                .data(results.getContent())
+                .build();
     }
 
+    // workplaceId로 해당 작업현장의 상세 정보를 조회하는 로직
     public WorkPlaceResponseDto searchWorkPlaceById(Long workPlaceId, Principal principal) {
-
-        if (principal == null) { // principal 객체에 null담기는거 문제 해결하기
-            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION,
-                    ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
-        }
 
         WorkPlace workPlaceInfo = workplaceRepository.findById(workPlaceId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
