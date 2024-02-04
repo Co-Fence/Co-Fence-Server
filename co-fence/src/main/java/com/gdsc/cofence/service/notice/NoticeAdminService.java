@@ -24,6 +24,7 @@ public class NoticeAdminService {
     private final UserRepository userRepository;
 
     // 공지사항을 등록하는 로직
+    // 작업현장Id에 매칭해서 해야하는 수행과제가 있음
     public NoticeRegisterResponseDto registerNoticeOnlyAdmin(NoticeRegisterRequestDto requestDto, Principal principal) {
         Long userId = Long.parseLong(principal.getName());
 

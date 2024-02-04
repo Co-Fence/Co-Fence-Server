@@ -15,4 +15,5 @@ public interface NoticeRepository extends JpaRepository<Notice, Long>,
         JpaSpecificationExecutor<Notice> {
 
     Page<Notice> findByNoticeSubjectContainsAndTargetRole(String noticeSubject, RoleType targetRole, Pageable pageable);
+
 }

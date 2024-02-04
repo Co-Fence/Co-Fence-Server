@@ -30,7 +30,6 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
 
     // 공지사항을 검색하고 페이지네이션을 통해서 검색 결과를 반환하는 로직
-    // -> 테스트 해야함~ 시발
     @Transactional(readOnly = true)
     public NoticeResponseWrapperDto searchNotices(NoticeSearchRequestDto requestDto, Principal principal,
                                                   int page, int size) {
@@ -49,7 +48,7 @@ public class NoticeService {
                 .map(notice -> NoticeSearchResponseDto.builder()
                         .noticeId(notice.getNoticeId())
                         .noticeSubject(notice.getNoticeSubject())
-                        .targetRoletype(notice.getTargetRole())
+                        .targetRoleType(notice.getTargetRole())
                         .existImage(!notice.getNoticeImageUrl().isEmpty())
                         .build())
                 .collect(Collectors.toList());
@@ -64,15 +63,6 @@ public class NoticeService {
                 .meta(meta)
                 .data(noticesDto)
                 .build();
-    }
-
-    // 더 표현할 데이터가 있는지에 대한 검증
-    // true면 더 조회할 데이터가 있다는 것 / false면 더 조회할 데이터가 없다는것이다
-    // findAll()을 사용안하는 방법으로 한 번 찾아봤음
-    private Boolean hasMore(int page, int size) {
-        long totalElements = noticeRepository.count();
-
-        return totalElements > (long) page * size;
     }
 
     // 공지사항 Id를 통해서 해당 공지사항의 세부사항을 조회하는 로직
@@ -91,10 +81,19 @@ public class NoticeService {
         return NoticeDetailResponseDto.builder()
                 .noticeSubject(notice.getNoticeSubject())
                 .userName(notice.getUser().getUserName())
-                .targetRole(notice.getTargetRole())
+                .targetRoleType(notice.getTargetRole())
                 .createdAt(notice.getCreatedAt())
                 .noticeDetail(notice.getNoticeDetail())
                 .noticeImageUrl(notice.getNoticeImageUrl())
                 .build();
+    }
+
+    // 더 표현할 데이터가 있는지에 대한 검증
+    // true면 더 조회할 데이터가 있다는 것 / false면 더 조회할 데이터가 없다는것이다
+    // findAll()을 사용안하는 방법으로 한 번 찾아봤음
+    private Boolean hasMore(int page, int size) {
+        long totalElements = noticeRepository.count();
+
+        return totalElements > (long) page * size;
     }
 }

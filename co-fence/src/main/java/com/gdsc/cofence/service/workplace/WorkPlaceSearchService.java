@@ -70,7 +70,7 @@ public class WorkPlaceSearchService {
 
         Pageable pageable = PageRequest.of(page - 1, size);
 
-         Page<WorkPlaceResponseDto> results = workplaceRepository.findByWorkplaceNameContaining(workplaceName, pageable)
+        Page<WorkPlaceResponseDto> results = workplaceRepository.findByWorkplaceNameContaining(workplaceName, pageable)
                 .map(WorkPlaceResponseDto::new);
 
         // 해당 검색결과에 대한 작업현장 내역이 없는 경우

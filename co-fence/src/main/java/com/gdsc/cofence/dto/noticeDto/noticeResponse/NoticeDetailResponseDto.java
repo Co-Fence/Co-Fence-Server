@@ -16,7 +16,7 @@ public class NoticeDetailResponseDto {
 
     private String noticeSubject;
     private String userName;
-    private RoleType targetRole;
+    private RoleType targetRoleType;
     private LocalDateTime createdAt;
     private String noticeDetail;
     private List<String> noticeImageUrl;
