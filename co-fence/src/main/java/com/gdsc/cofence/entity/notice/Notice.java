@@ -2,6 +2,7 @@ package com.gdsc.cofence.entity.notice;
 
 import com.gdsc.cofence.entity.user.RoleType;
 import com.gdsc.cofence.entity.user.User;
+import com.gdsc.cofence.entity.workplace.WorkPlace;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -56,6 +57,10 @@ public class Notice {
     private RoleType targetRole;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "WORKPLACE_ID")
+    private WorkPlace workPlace;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_SEQ")
     private User user;
 }

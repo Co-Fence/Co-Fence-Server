@@ -1,6 +1,7 @@
 package com.gdsc.cofence.entity.workplace;
 
 import com.gdsc.cofence.entity.attendence.Attendance;
+import com.gdsc.cofence.entity.notice.Notice;
 import com.gdsc.cofence.entity.report.ReportManagement;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,6 +40,9 @@ public class WorkPlace {
 
     @OneToMany(mappedBy = "reportedWorkplace", fetch = FetchType.LAZY)
     private List<ReportManagement> reportManagements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "workPlace", fetch = FetchType.LAZY)
+    private List<Notice> notices = new ArrayList<>();
 
     @Builder
     public WorkPlace(Long id, String name, String address) {

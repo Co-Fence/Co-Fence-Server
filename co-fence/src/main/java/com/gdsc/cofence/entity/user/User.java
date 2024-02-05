@@ -2,6 +2,7 @@ package com.gdsc.cofence.entity.user;
 
 import com.gdsc.cofence.dto.userDto.userResponse.UserListResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
+import com.gdsc.cofence.entity.notice.Notice;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -70,6 +71,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Attendance> attendances;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Notice> notices = new ArrayList<>();
 
     public UserListResponseDto toDto() {
       return UserListResponseDto.builder()

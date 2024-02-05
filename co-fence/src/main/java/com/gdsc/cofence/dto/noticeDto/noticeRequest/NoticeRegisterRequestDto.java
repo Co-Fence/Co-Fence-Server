@@ -18,4 +18,5 @@ public class NoticeRegisterRequestDto {
     private RoleType targetRoleType;
     private String noticeDetail;
     private List<String> noticeImageUrls;
+    private Long workplaceId;
 }
