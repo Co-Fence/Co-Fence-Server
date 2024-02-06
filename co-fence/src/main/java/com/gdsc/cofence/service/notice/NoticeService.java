@@ -5,12 +5,15 @@ import com.gdsc.cofence.dto.noticeDto.noticeRequest.NoticeSearchRequestDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeDetailResponseDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeResponseWrapperDto;
 import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeSearchResponseDto;
+import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.notice.Notice;
 import com.gdsc.cofence.exception.ErrorCode;
 import com.gdsc.cofence.exception.model.CustomException;
+import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.NoticeRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import org.springdoc.core.configuration.oauth2.SpringDocOAuth2TokenIntrospection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,16 +31,21 @@ import java.util.stream.Collectors;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
+    private final AttendanceRepository attendanceRepository;
 
     // 공지사항을 검색하고 페이지네이션을 통해서 검색 결과를 반환하는 로직
     @Transactional(readOnly = true)
     public NoticeResponseWrapperDto searchNotices(NoticeSearchRequestDto requestDto, Principal principal,
                                                   int page, int size) {
 
+        Long userId = Long.parseLong(principal.getName());
+        Long workplaceId = getLatestWorkplaceIdByUserSeq(userId);
+
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<Notice> notices = noticeRepository
-                .findByNoticeSubjectContainsAndTargetRole(requestDto.getNoticeSubject(), requestDto.getTargetRoletype(), pageable);
+                .findByWorkPlace_WorkplaceIdAndNoticeSubjectContainingAndTargetRole
+                        (workplaceId, requestDto.getNoticeSubject(), requestDto.getTargetRoletype(), pageable);
 
         if (notices == null) {
             throw new CustomException(ErrorCode.NOT_FOUND_NOTICE_EXCEPTION,
@@ -95,5 +103,17 @@ public class NoticeService {
         long totalElements = noticeRepository.count();
 
         return totalElements > (long) page * size;
+    }
+
+    // 해당 근로자의 출근시간을 이용해서 현재 사용자가 근무중인 작업현장의 Id를 반환하는 메서드
+    private Long getLatestWorkplaceIdByUserSeq(Long userSeq) {
+        Attendance latestAttendance = attendanceRepository.findFirstByUser_UserSeqOrderByAttendTimeDesc(userSeq);
+
+        if (latestAttendance == null) {
+            throw new CustomException(ErrorCode.NOT_FOUND_WORK_RECORD_EXCEPTION,
+                    ErrorCode.NOT_FOUND_WORK_RECORD_EXCEPTION.getMessage());
+        }
+
+        return latestAttendance.getWorkPlace().getWorkplaceId();
     }
 }

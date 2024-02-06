@@ -14,6 +14,10 @@ import java.util.List;
 public interface NoticeRepository extends JpaRepository<Notice, Long>,
         JpaSpecificationExecutor<Notice> {
 
-    Page<Notice> findByNoticeSubjectContainsAndTargetRole(String noticeSubject, RoleType targetRole, Pageable pageable);
-
+    Page<Notice> findByWorkPlace_WorkplaceIdAndNoticeSubjectContainingAndTargetRole(
+            Long workplaceId,
+            String noticeSubject,
+            RoleType targetRoletype,
+            Pageable pageable
+    );
 }
