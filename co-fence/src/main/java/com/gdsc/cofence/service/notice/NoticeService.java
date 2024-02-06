@@ -13,7 +13,6 @@ import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.NoticeRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import org.springdoc.core.configuration.oauth2.SpringDocOAuth2TokenIntrospection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -92,7 +91,7 @@ public class NoticeService {
                 .targetRoleType(notice.getTargetRole())
                 .createdAt(notice.getCreatedAt())
                 .noticeDetail(notice.getNoticeDetail())
-                .noticeImageUrl(notice.getNoticeImageUrl())
+                .noticeImage(notice.getNoticeImageUrl())
                 .build();
     }
 

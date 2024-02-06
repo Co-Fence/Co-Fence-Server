@@ -19,5 +19,5 @@ public class NoticeDetailResponseDto {
     private RoleType targetRoleType;
     private LocalDateTime createdAt;
     private String noticeDetail;
-    private List<String> noticeImageUrl;
+    private List<String> noticeImage;
 }
