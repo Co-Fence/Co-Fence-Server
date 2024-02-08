@@ -71,6 +71,7 @@ public class UserCommunicateService {
                 .filter(user1 -> user1.getUserName().equals(userName))
                 .collect(Collectors.toList());
 
+        // 검색 결과가 없을때의 예외처리
         if (users.isEmpty()) {
             throw new CustomException(ErrorCode.NOT_FOUND_USER_EXCEPTION,
                     ErrorCode.NOT_FOUND_USER_EXCEPTION.getMessage());
