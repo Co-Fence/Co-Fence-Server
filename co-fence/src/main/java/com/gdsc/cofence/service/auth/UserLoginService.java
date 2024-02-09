@@ -35,6 +35,7 @@ public class UserLoginService {
     private final TokenRenewService tokenRenewService;
     private final AttendanceRepository attendanceRepository;
 
+    // 회원가입을 처리하는 로직
     @Transactional
     public UserAndTokenSignUpResponseDto SignUp(UserInfoDto userInfoDto) {
 
