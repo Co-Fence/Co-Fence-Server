@@ -101,6 +101,7 @@ public class UserLoginService {
                 .orElseGet(() -> {
                     UserRefreshToken newUserRefreshToken = new UserRefreshToken();
                     newUserRefreshToken.setUser(user);
+                    // 갱신된 refreshTokenw 저장
                     return userRefreshTokenRepository.save(newUserRefreshToken);
                 });
 
