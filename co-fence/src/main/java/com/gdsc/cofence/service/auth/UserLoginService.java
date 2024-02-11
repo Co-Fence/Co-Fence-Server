@@ -84,7 +84,7 @@ public class UserLoginService {
                 .build();
     }
 
-
+    // 로그인을 처리하는 로직
     // 사용자 email을 받아서 사용자 검색하고 그 사용자에 맞는 갱신된 refreshToken, accessToken 반환
     @Transactional
     public UserAndTokenLoginResponseDto login(UserEmailDto userEmailDto) {
