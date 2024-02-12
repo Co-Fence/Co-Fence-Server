@@ -127,6 +127,7 @@ public class UserLoginService {
                 .build();
     }
 
+    // 이메일 중복을 검사하는 로직
     @Transactional
     public boolean duplicateInspectionEmail(String email) { // 이메일 중복검사
         return userRepository.existsByEmail(email);
