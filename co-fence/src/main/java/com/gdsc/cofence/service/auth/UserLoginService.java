@@ -154,7 +154,7 @@ public class UserLoginService {
         userRefreshToken.ifPresent(userRefreshTokenRepository::delete);
     }
 
-    // 해당 사용자가 가장 최근에 출근한 기록을 찾고 해당 출근 기록에 맞는 작업현장Id를 반환하는 기능
+    // 해당 사용자가 가장 최근에 출근한 기록을 찾고 해당 출근 기록에 맞는 작업현장Id를 반환하는 로직
     private Long getLatestWorkplaceIdByUserSeq(Long userSeq) {
         Attendance latestAttendance = attendanceRepository.findFirstByUser_UserSeqOrderByAttendTimeDesc(userSeq);
 
