@@ -97,6 +97,7 @@ public class UserLoginService {
         String renewRefreshToken = tokenProvider.createRefreshToken(user); // 갱신된 refreshToken 생성
 
         // 로그아웃 후 다시 로그인을 시도할 경우를 위한 로직
+        // 해당 사용자의 refreshToken이 없을때 orElseGet을 통해서 해당 사용자의 refreshToken을 재발급하고 데이터베이스에 저장
         UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUser_UserSeq(user.getUserSeq())
                 .orElseGet(() -> {
                     UserRefreshToken newUserRefreshToken = new UserRefreshToken();
@@ -149,6 +150,7 @@ public class UserLoginService {
         logoutLogic(user);
     }
 
+    // 해당 사용자 정보를 user객체로 받아서 해당 사용자의 refreshToken을 삭제하는 로직
     public void logoutLogic(User user) {
         Optional<UserRefreshToken> userRefreshToken = userRefreshTokenRepository.findByUser_UserSeq(user.getUserSeq());
         userRefreshToken.ifPresent(userRefreshTokenRepository::delete);
