@@ -110,7 +110,8 @@ public class UserLoginService {
         userRefreshToken.setUser(user);
         userRefreshTokenRepository.save(userRefreshToken); // 갱신된 refreshToken DB에 저장
 
-        RenewAccessTokenDto renewAccessTokenDto = tokenRenewService.renewAccessToken(renewRefreshToken); // accessToken 갱신
+        // refreshToken을 이용해서 accessToken을 갱신하는 로직
+        RenewAccessTokenDto renewAccessTokenDto = tokenRenewService.renewAccessToken(renewRefreshToken);
         String renewAccessToken = renewAccessTokenDto.getRenewAccessToken();
 
         Long workplaceId = getLatestWorkplaceIdByUserSeq(user.getUserSeq());
