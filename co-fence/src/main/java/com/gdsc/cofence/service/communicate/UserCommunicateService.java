@@ -59,6 +59,7 @@ public class UserCommunicateService {
                 .orElseThrow(()-> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
                         "사용자: " + ErrorCode.NOT_FOUND_ID_EXCEPTION.getMessage()));
 
+        // 마지막에 기록된 출근 기록을 통해서 현재 근무하고 있는 작업현장을 찾는 로직
         Attendance latestAttendance = user.getAttendances().stream()
                 .max(Comparator.comparing(Attendance::getAttendTime))
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ATTENDANCE_EXCEPTION,
