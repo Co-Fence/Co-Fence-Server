@@ -124,7 +124,6 @@ public class WorkplaceRegistrationService {
 
             userInfoDtoList.add(userInfoDto);
         }
-
         return userInfoDtoList;
     }
 
