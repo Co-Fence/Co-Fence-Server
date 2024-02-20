@@ -127,7 +127,7 @@ public class WorkplaceRegistrationService {
         return userInfoDtoList;
     }
 
-    // 현장 탈퇴
+    // 현장 탈퇴하는 로직
     public String checkOutWorkplace(Long workplaceId, Principal principal) {
 
         Long userId;
