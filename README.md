@@ -25,24 +25,24 @@ width:80%;margin:0 auto">
 
 <hr />
 
-## About our Project:
-<!--
+## About our Project: 
+
 <div align="center"> 
-  <a href="https://youtu.be/eIh8eERBSR4">
-    <img src="https://user-images.githubusercontent.com/72500673/229066631-3fce7b5b-df09-4035-ba28-499714c51f12.png" alt="BeP - GDSC Solution Challenge 2023" width="600" height="350">
+  <a href="https://youtu.be/6yUVD1s7peQ">
+    <img src="https://github.com/Co-Fence/Co-Fence-App/assets/92084974/d85fcfd6-3af8-4b8a-943d-812513fab0dc" alt="Co-Fence - GDSC Solution Challenge 2024" width="600" height="350">
   </a>
-</div>-->
+</div>
 
 <!-- TechStack -->
 
 ## Tech Stack
 
-<h3><b>Server</b></h3>
-<div style = "display:flex;gap:5px;"><img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring-Boot&logoColor=white"></img>
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-<img src="https://img.shields.io/badge/Swagger-6DB33F?style=for-the-badge&logo=Swagger&logoColor=white">
-<img src="https://img.shields.io/badge/Java-1E8CBE?style=for-the-badge&logo=Java&logoColor=white">
-</div>
+  <h3><b>Server</b></h3>
+    <div style = "display:flex;gap:5px;"><img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring-Boot&logoColor=white"></img>
+    <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+    <img src="https://img.shields.io/badge/Swagger-6DB33F?style=for-the-badge&logo=Swagger&logoColor=white">
+    <img src="https://img.shields.io/badge/Java-1E8CBE?style=for-the-badge&logo=Java&logoColor=white">
+    </div>
 
   <br/>
   <br/>
@@ -62,11 +62,11 @@ width:80%;margin:0 auto">
 ## Google Tech we use
 
 <h3>We opted for Google Cloud Platform due to its exceptional stability and scalability, and its provision of diverse features such as Google Maps API and Firebase.</h3>
-<div style = "display:flex;gap:5px;">
-<img src="https://img.shields.io/badge/Google Cloud-4285F4?style=for-the-badge&logo=Google Cloud&logoColor=white">
-<img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=white">
-</div>
-<br/>
+    <div style = "display:flex;gap:5px;">
+    <img src="https://img.shields.io/badge/Google Cloud-4285F4?style=for-the-badge&logo=Google Cloud&logoColor=white">
+    <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=white">
+    </div>
+  <br/>
 
 ## Google Cloud Platform
 
@@ -96,12 +96,15 @@ width:80%;margin:0 auto">
 <div style = "font-size:15px">[O] Users can upload images more than 1 image. </div>
 <div style = "font-size:15px">[X] Companies can make their own workplace.</div>
 <div style = "font-size:15px">[X] Users can use different language setting based on their OS system language setting. </div>
+<div style = "font-size:15px">[X] Users can chat via our app. </div>
+<div style = "font-size:15px">[X] Co-Fence have to incorporate convenient features into the service based on a compromise that meets the requirements of both parties. </div>
+<div style = "font-size:15px">[X] Co-Fence have to Implementing robust security policies and continuously improving our security measures. </div>
 
 <hr />
 
 # Project Link
 Server: https://github.com/Co-Fence/Co-Fence-Server
-
+  
 App : https://github.com/Co-Fence/Co-Fence-App
 
 #  Team of Co-Fence
