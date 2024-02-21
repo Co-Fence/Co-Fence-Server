@@ -80,7 +80,7 @@ public class WorkplaceRegistrationService {
                 .build();
     }
 
-    // 출근을 처리하는 createAttendance기능
+    // 출근
     public Attendance createAttendance(AttendanceDto attendanceDto) {
         User user = userRepository.findById(attendanceDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
@@ -127,7 +127,7 @@ public class WorkplaceRegistrationService {
         return userInfoDtoList;
     }
 
-    // 현장 탈퇴하는 로직
+    // 현장 탈퇴 로직
     public String checkOutWorkplace(Long workplaceId, Principal principal) {
 
         Long userId;
