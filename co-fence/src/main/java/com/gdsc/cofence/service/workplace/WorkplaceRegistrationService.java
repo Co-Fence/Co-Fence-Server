@@ -97,7 +97,7 @@ public class WorkplaceRegistrationService {
                 .build();
     }
 
-    // 해당 작업현장에 출근한 사람들의 목록을 불러옴
+    // 해당 작업현장에 출근한 근로자들을 불러오는 로직
     public List<AttendanceUserInfoDto> getAttendeesInWorkplace(Long workplaceId, Principal principal) {
 
         List<Attendance> attendances = attendanceRepository.findByWorkPlace_WorkplaceId(workplaceId);
