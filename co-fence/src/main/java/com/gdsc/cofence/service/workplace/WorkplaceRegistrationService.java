@@ -80,7 +80,7 @@ public class WorkplaceRegistrationService {
                 .build();
     }
 
-    // 출근
+    // 출근을 처리하는 로직
     public Attendance createAttendance(AttendanceDto attendanceDto) {
         User user = userRepository.findById(attendanceDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ID_EXCEPTION,
