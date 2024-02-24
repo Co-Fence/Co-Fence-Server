@@ -63,7 +63,7 @@ public class WorkPlaceSearchService {
         return totalElements > (long) page * size;
     }
 
-    // 작업현장 이름으로 작업현장 검색
+    // 작업현장 이름으로 검색하는 로직
     @Transactional(readOnly = true)
     public WorkPlaceResponseWrapperDto searchWorkPlaceByName(String workplaceName, Principal principal,
                                                              int page, int size) {
