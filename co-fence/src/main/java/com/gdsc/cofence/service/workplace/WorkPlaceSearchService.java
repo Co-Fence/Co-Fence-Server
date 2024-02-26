@@ -73,7 +73,7 @@ public class WorkPlaceSearchService {
         Page<WorkPlaceResponseDto> results = workplaceRepository.findByWorkplaceNameContaining(workplaceName, pageable)
                 .map(WorkPlaceResponseDto::new);
 
-        // 해당 검색결과에 대한 작업현장 내역이 없는 경우
+        // 해당 검색결과에 대한 작업현장 내역이 없는 경우를 처리하는 예외처리
         if (results.isEmpty()) {
             throw new CustomException(ErrorCode.NOT_FOUND_REPORTS_EXCEPTION,
                     ErrorCode.NOT_FOUND_REPORTS_EXCEPTION.getMessage());
