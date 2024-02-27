@@ -30,6 +30,7 @@ public class ReportAdminService { // 관리자만이 실행 할 수 있는 로�
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
 
+    // 신고를 수정하는 로직
     @Transactional
     public ReportUpdateResponseDto updateReport(Long reportId, ReportUpdateRequestDto requestDto, Principal principal) {
 
