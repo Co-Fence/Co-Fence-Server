@@ -77,6 +77,7 @@ public class ReportAdminService { // 관리자만이 실행 할 수 있는 로�
         return latestAttendance.getWorkPlace().getWorkplaceId();
     }
 
+    // 신고를 삭제하는 로직
     @Transactional
     public String deleteReport(Long reportId, Principal principal) {
 
