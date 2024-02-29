@@ -99,6 +99,7 @@ public class ReportAdminService { // 관리자만이 실행 할 수 있는 로�
         return SuccessCode.DELETE_REPORT_SUCCESS.getMessage();
     }
 
+    // principalName을 통해서 사용자Id를 반환하는 함수
     private Long findUserIdByPrincipal(String principalName) {
         return Long.parseLong(principalName);
     }
