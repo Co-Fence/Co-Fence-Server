@@ -104,6 +104,7 @@ public class ReportAdminService { // 관리자만이 실행 할 수 있는 로�
         return Long.parseLong(principalName);
     }
 
+    // principal객체를 통해서 사용자 정보를 반환하는 로직
     private User getUserByPrincipal(Principal principal) {
         Long userId = findUserIdByPrincipal(principal.getName());
 
