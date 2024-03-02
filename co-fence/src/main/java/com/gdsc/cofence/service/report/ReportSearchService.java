@@ -82,6 +82,7 @@ public class ReportSearchService {
         return reports.map(reportManagement -> new ReportSearchResponseDto(reportManagement));
     }
 
+    // spectification 동적 쿼리 생성
     private class ReportSpecification {
 
         public static Specification<ReportManagement> hasActionStatus(ActionStatus actionStatus) {
