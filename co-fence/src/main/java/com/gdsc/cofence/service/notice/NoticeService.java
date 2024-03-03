@@ -104,7 +104,7 @@ public class NoticeService {
         return totalElements > (long) page * size;
     }
 
-    // 해당 근로자의 출근시간을 이용해서 현재 사용자가 근무중인 작업현장의 Id를 반환하는 메서드
+    // 해당 근로자의 출근시간을 이용해서 현재 사용자가 근무중인 작업현장의 Id를 반환하는 로직
     private Long getLatestWorkplaceIdByUserSeq(Long userSeq) {
         Attendance latestAttendance = attendanceRepository.findFirstByUser_UserSeqOrderByAttendTimeDesc(userSeq);
 
