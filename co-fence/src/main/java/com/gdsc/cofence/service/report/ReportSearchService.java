@@ -25,6 +25,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
+
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -82,7 +83,7 @@ public class ReportSearchService {
         return reports.map(reportManagement -> new ReportSearchResponseDto(reportManagement));
     }
 
-    // spectification 동적 쿼리 생성
+    // spectification
     private class ReportSpecification {
 
         public static Specification<ReportManagement> hasActionStatus(ActionStatus actionStatus) {
