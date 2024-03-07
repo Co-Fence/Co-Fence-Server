@@ -40,6 +40,7 @@ public class NoticeService {
         Long userId = Long.parseLong(principal.getName());
         Long workplaceId = getLatestWorkplaceIdByUserSeq(userId);
 
+        // 더 표현할 데이터가 있는지에 대한 여부를 판단하기 위해서 page의 기본 default값을 -1 연산을 통해서 계산에 용이하게 함
         Pageable pageable = PageRequest.of(page - 1, size);
 
         Page<Notice> notices = noticeRepository
