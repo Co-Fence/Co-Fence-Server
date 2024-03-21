@@ -36,6 +36,10 @@ public class WorkplaceRegistrationService {
     // 해당 작업현장으로 출근하는 로직
     public UserRegistrationResponseDto checkInWorkplace(Long workplaceId, Principal principal) {
 
+        if (principal == null) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_EXCEPTION, ErrorCode.UNAUTHORIZED_EXCEPTION.getMessage());
+        }
+
         Long userId;
         try {
             userId = Long.parseLong(principal.getName());
