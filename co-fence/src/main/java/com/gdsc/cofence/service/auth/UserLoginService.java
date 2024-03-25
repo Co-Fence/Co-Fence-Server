@@ -9,9 +9,9 @@ import com.gdsc.cofence.entity.user.RoleType;
 import com.gdsc.cofence.entity.user.User;
 import com.gdsc.cofence.dto.userDto.UserInfoDto;
 import com.gdsc.cofence.entity.user.UserRefreshToken;
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.model.CustomException;
-import com.gdsc.cofence.jwt.TokenProvider;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.model.CustomException;
+import com.gdsc.cofence.global.jwt.TokenProvider;
 import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.UserRefreshTokenRepository;
 import com.gdsc.cofence.repository.UserRepository;
@@ -100,10 +100,10 @@ public class UserLoginService {
         // 해당 사용자의 refreshToken이 없을때의 경우 orElseGet을 통해서 해당 사용자의 refreshToken을 재발급하고 DB에 저장
         UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUser_UserSeq(user.getUserSeq())
                 .orElseGet(() -> {
-                    UserRefreshToken newUserRefreshToken = new UserRefreshToken();
-                    newUserRefreshToken.setUser(user);
+                    UserRefreshToken logoutUserRenewRefreshToken = new UserRefreshToken();
+                    logoutUserRenewRefreshToken.setUser(user);
                     // 갱신된 refreshTokenw 저장
-                    return userRefreshTokenRepository.save(newUserRefreshToken);
+                    return userRefreshTokenRepository.save(logoutUserRenewRefreshToken);
                 });
 
         userRefreshToken.setRefreshToken(renewRefreshToken);

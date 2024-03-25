@@ -1,7 +1,7 @@
 package com.gdsc.cofence.entity.user;
 
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.model.CustomException;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.model.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.gdsc.cofence.exception;
+package com.gdsc.cofence.global.exception;
 
 import lombok.AccessLevel;
 import lombok.Getter;

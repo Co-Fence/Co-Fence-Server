@@ -5,8 +5,8 @@ import com.gdsc.cofence.dto.reportDto.reportResponse.ReportSearchDetailResponseD
 import com.gdsc.cofence.dto.reportDto.reportResponse.ReportSearchResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.user.User;
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.model.CustomException;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.model.CustomException;
 import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.ReportRepository;
 import com.gdsc.cofence.repository.UserRepository;

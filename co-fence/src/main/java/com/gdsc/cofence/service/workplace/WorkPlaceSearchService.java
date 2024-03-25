@@ -5,8 +5,8 @@ import com.gdsc.cofence.dto.wokrplaceDto.workplaceRequest.WorkPlacePagingAmountR
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.WorkPlaceResponseWrapperDto;
 import com.gdsc.cofence.entity.workplace.WorkPlace;
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.model.CustomException;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.model.CustomException;
 import com.gdsc.cofence.repository.WorkplaceRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.List;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PROTECTED)

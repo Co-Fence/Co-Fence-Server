@@ -1,4 +1,4 @@
-package com.gdsc.cofence.jwt;
+package com.gdsc.cofence.global.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

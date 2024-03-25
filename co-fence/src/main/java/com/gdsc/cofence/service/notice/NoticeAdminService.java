@@ -5,14 +5,13 @@ import com.gdsc.cofence.dto.noticeDto.noticeResponse.NoticeRegisterResponseDto;
 import com.gdsc.cofence.entity.notice.Notice;
 import com.gdsc.cofence.entity.user.User;
 import com.gdsc.cofence.entity.workplace.WorkPlace;
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.model.CustomException;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.model.CustomException;
 import com.gdsc.cofence.repository.NoticeRepository;
 import com.gdsc.cofence.repository.UserRepository;
 import com.gdsc.cofence.repository.WorkplaceRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

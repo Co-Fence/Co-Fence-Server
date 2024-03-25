@@ -2,15 +2,14 @@ package com.gdsc.cofence.service.workplace;
 
 import com.gdsc.cofence.dto.AttendanceDto.AttendanceDto;
 import com.gdsc.cofence.dto.userDto.AttendanceUserInfoDto;
-import com.gdsc.cofence.dto.userDto.UserInfoDto;
 import com.gdsc.cofence.dto.wokrplaceDto.WorkplaceIdDto;
 import com.gdsc.cofence.dto.wokrplaceDto.workplaceResponse.UserRegistrationResponseDto;
 import com.gdsc.cofence.entity.attendence.Attendance;
 import com.gdsc.cofence.entity.user.User;
 import com.gdsc.cofence.entity.workplace.WorkPlace;
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.SuccessCode;
-import com.gdsc.cofence.exception.model.CustomException;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.SuccessCode;
+import com.gdsc.cofence.global.exception.model.CustomException;
 import com.gdsc.cofence.repository.AttendanceRepository;
 import com.gdsc.cofence.repository.UserRepository;
 import com.gdsc.cofence.repository.WorkplaceRepository;

@@ -1,9 +1,9 @@
-package com.gdsc.cofence.common.advice;
+package com.gdsc.cofence.global.common.advice;
 
 
-import com.gdsc.cofence.common.dto.ApiResponse;
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.model.CustomException;
+import com.gdsc.cofence.global.common.dto.ApiResponse;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.model.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

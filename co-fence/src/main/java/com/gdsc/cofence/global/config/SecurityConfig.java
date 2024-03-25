@@ -1,8 +1,8 @@
-package com.gdsc.cofence.config;
+package com.gdsc.cofence.global.config;
 
 
-import com.gdsc.cofence.jwt.JwtFilter;
-import com.gdsc.cofence.jwt.TokenProvider;
+import com.gdsc.cofence.global.jwt.JwtFilter;
+import com.gdsc.cofence.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

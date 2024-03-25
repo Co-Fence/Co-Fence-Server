@@ -1,8 +1,8 @@
-package com.gdsc.cofence.jwt;
+package com.gdsc.cofence.global.jwt;
 
 import com.gdsc.cofence.entity.user.User;
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.model.CustomException;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.model.CustomException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

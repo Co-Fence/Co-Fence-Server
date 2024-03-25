@@ -1,6 +1,6 @@
-package com.gdsc.cofence.exception.model;
+package com.gdsc.cofence.global.exception.model;
 
-import com.gdsc.cofence.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter

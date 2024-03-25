@@ -1,4 +1,4 @@
-package com.gdsc.cofence.exception.model;
+package com.gdsc.cofence.global.exception.model;
 
 public class TokenValidFailedException extends RuntimeException {
 

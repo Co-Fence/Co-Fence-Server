@@ -1,7 +1,7 @@
-package com.gdsc.cofence.common.dto;
+package com.gdsc.cofence.global.common.dto;
 
-import com.gdsc.cofence.exception.ErrorCode;
-import com.gdsc.cofence.exception.SuccessCode;
+import com.gdsc.cofence.global.exception.ErrorCode;
+import com.gdsc.cofence.global.exception.SuccessCode;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.gdsc.cofence.aop;
+package com.gdsc.cofence.global.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
